@@ -17,280 +17,56 @@ st.set_page_config(
 
 
 # =========================================================
-# PROFESSIONAL LIGHT UI
+# LIGHT PROFESSIONAL THEME
 # =========================================================
 
-st.markdown("""
-<style>
-
-/* ---------- MAIN BACKGROUND ---------- */
-
-.stApp {
-    background:
-        radial-gradient(circle at 10% 10%, rgba(59,130,246,0.10), transparent 25%),
-        radial-gradient(circle at 90% 15%, rgba(20,184,166,0.10), transparent 25%),
-        linear-gradient(135deg, #f7faff 0%, #eef5ff 50%, #f8fbff 100%);
-}
-
-.main .block-container {
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-    max-width: 1400px;
-}
-
-
-/* ---------- SIDEBAR ---------- */
-
-section[data-testid="stSidebar"] {
-    background:
-        linear-gradient(180deg, #ffffff 0%, #f1f7ff 100%);
-    border-right: 1px solid #dbe7f5;
-}
-
-section[data-testid="stSidebar"] > div {
-    padding-top: 1.5rem;
-}
-
-
-/* Sidebar title */
-
-section[data-testid="stSidebar"] h1,
-section[data-testid="stSidebar"] h2,
-section[data-testid="stSidebar"] h3 {
-    color: #123b70 !important;
-    font-weight: 800 !important;
-}
-
-
-/* Sidebar navigation buttons */
-
-section[data-testid="stSidebar"] .stButton > button {
-    width: 100%;
-    min-height: 52px;
-    border-radius: 12px;
-    border: 1px solid #d8e5f5;
-    background: #ffffff;
-    color: #173f70;
-    font-size: 17px;
-    font-weight: 700;
-    text-align: left;
-    padding-left: 18px;
-    margin-bottom: 8px;
-    box-shadow: 0 3px 10px rgba(30, 80, 130, 0.06);
-    transition: all 0.2s ease;
-}
-
-section[data-testid="stSidebar"] .stButton > button:hover {
-    background: #eaf3ff;
-    border-color: #4f8edc;
-    color: #0d4f9c;
-    transform: translateX(3px);
-}
-
-
-/* ---------- HERO ---------- */
-
-.hero-box {
-    background: linear-gradient(
-        135deg,
-        #ffffff 0%,
-        #f2f8ff 55%,
-        #eafcff 100%
-    );
-
-    border: 1px solid #d8e8f7;
-    border-radius: 24px;
-    padding: 32px 38px;
-    margin-bottom: 28px;
-
-    box-shadow:
-        0 12px 35px rgba(39, 92, 140, 0.10);
-}
-
-.hero-label {
-    color: #147d78;
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-
-.hero-title {
-    color: #123b70;
-    font-size: 42px;
-    font-weight: 900;
-    line-height: 1.15;
-    margin-bottom: 10px;
-}
-
-.hero-text {
-    color: #536579;
-    font-size: 17px;
-    line-height: 1.6;
-}
-
-
-/* ---------- SECTION HEADINGS ---------- */
-
-h1, h2, h3 {
-    color: #173f70 !important;
-}
-
-h2 {
-    font-weight: 850 !important;
-}
-
-h3 {
-    font-weight: 750 !important;
-}
-
-
-/* ---------- CARDS ---------- */
-
-div[data-testid="stVerticalBlockBorderWrapper"] {
-    background: rgba(255,255,255,0.96);
-    border: 1px solid #dce8f4;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(30, 80, 130, 0.07);
-}
-
-
-/* ---------- INPUT LABELS ---------- */
-
-label {
-    color: #274968 !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-}
-
-
-/* ---------- INPUT BOXES ---------- */
-
-div[data-baseweb="select"] > div {
-    border-radius: 10px !important;
-    border: 1px solid #cbdbea !important;
-    background-color: #ffffff !important;
-}
-
-div[data-baseweb="select"] > div:hover {
-    border-color: #4f8edc !important;
-}
-
-
-/* Number input */
-
-div[data-testid="stNumberInput"] input {
-    border-radius: 10px !important;
-    border: 1px solid #cbdbea !important;
-    background: #ffffff !important;
-}
-
-
-/* ---------- PRIMARY BUTTON ---------- */
-
-.stButton > button[kind="primary"] {
-    background: linear-gradient(
-        90deg,
-        #1769aa,
-        #168b86
-    ) !important;
-
-    color: white !important;
-    border: none !important;
-    border-radius: 12px !important;
-
-    min-height: 52px;
-
-    font-size: 17px !important;
-    font-weight: 800 !important;
-
-    box-shadow:
-        0 7px 18px rgba(23, 105, 170, 0.22);
-
-    transition: all 0.2s ease;
-}
-
-.stButton > button[kind="primary"]:hover {
-    transform: translateY(-2px);
-    box-shadow:
-        0 10px 24px rgba(23, 105, 170, 0.30);
-}
-
-
-/* ---------- NORMAL BUTTON ---------- */
-
-.stButton > button {
-    border-radius: 12px;
-    font-weight: 700;
-}
-
-
-/* ---------- METRICS ---------- */
-
-div[data-testid="stMetric"] {
-    background: #ffffff;
-    border: 1px solid #dce8f4;
-    padding: 18px;
-    border-radius: 15px;
-    box-shadow: 0 6px 18px rgba(30,80,130,0.06);
-}
-
-div[data-testid="stMetricLabel"] {
-    color: #62758a !important;
-    font-weight: 700 !important;
-}
-
-div[data-testid="stMetricValue"] {
-    color: #123b70 !important;
-    font-weight: 850 !important;
-}
-
-
-/* ---------- INFO / WARNING / SUCCESS ---------- */
-
-div[data-testid="stAlert"] {
-    border-radius: 12px !important;
-    font-weight: 600;
-}
-
-
-/* ---------- DIVIDER ---------- */
-
-hr {
-    border: none;
-    border-top: 1px solid #dbe7f3;
-    margin: 25px 0;
-}
-
-
-/* ---------- PROGRESS ---------- */
-
-div[data-testid="stProgressBar"] {
-    height: 14px;
-}
-
-
-/* ---------- CAPTION ---------- */
-
-.stCaption {
-    color: #687b8f !important;
-}
-
-
-/* ---------- FOOTER ---------- */
-
-.footer-text {
-    text-align: center;
-    color: #718399;
-    font-size: 13px;
-    margin-top: 35px;
-    padding-top: 20px;
-    border-top: 1px solid #dbe7f3;
-}
-
-</style>
-""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <style>
+
+    .stApp {
+        background-color: #f4f8fc;
+    }
+
+    [data-testid="stSidebar"] {
+        background-color: #ffffff;
+        border-right: 1px solid #d9e4ef;
+    }
+
+    [data-testid="stSidebar"] * {
+        color: #173f70;
+    }
+
+    [data-testid="stSidebar"] .stRadio label {
+        font-size: 18px !important;
+        font-weight: 700 !important;
+    }
+
+    h1 {
+        color: #123b70 !important;
+        font-weight: 850 !important;
+    }
+
+    h2 {
+        color: #174f7c !important;
+        font-weight: 800 !important;
+    }
+
+    h3 {
+        color: #176b76 !important;
+        font-weight: 750 !important;
+    }
+
+    .stButton button {
+        font-size: 17px !important;
+        font-weight: 750 !important;
+        border-radius: 10px !important;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # =========================================================
@@ -313,7 +89,7 @@ try:
 
 except Exception as e:
 
-    st.error("❌ Model could not be loaded.")
+    st.error("Model could not be loaded.")
     st.code(str(e))
     st.stop()
 
@@ -335,10 +111,13 @@ if model_features is None:
 # SIDEBAR NAVIGATION
 # =========================================================
 
-st.sidebar.markdown("## 📊 Customer Churn AI")
-st.sidebar.caption("XGBoost Prediction System")
+st.sidebar.title("📊 Customer Churn AI")
 
-st.sidebar.markdown("---")
+st.sidebar.caption(
+    "XGBoost Customer Analytics System"
+)
+
+st.sidebar.divider()
 
 page = st.sidebar.radio(
     "NAVIGATION",
@@ -349,7 +128,7 @@ page = st.sidebar.radio(
     ]
 )
 
-st.sidebar.markdown("---")
+st.sidebar.divider()
 
 st.sidebar.info(
     "Enter customer information to estimate "
@@ -363,97 +142,89 @@ st.sidebar.info(
 
 if page == "🏠 Dashboard":
 
-    st.markdown("""
-    <div class="hero-box">
+    st.title("📊 Customer Churn AI")
 
-        <div class="hero-label">
-            Artificial Intelligence • Customer Analytics
-        </div>
+    st.subheader(
+        "XGBoost Based Customer Churn Analysis System"
+    )
 
-        <div class="hero-title">
-            📊 Customer Churn AI
-        </div>
+    st.write(
+        "A machine learning system that estimates "
+        "customer churn probability using customer "
+        "profile, service and billing information."
+    )
 
-        <div class="hero-text">
-            An XGBoost-based machine learning system designed
-            to estimate customer churn probability using
-            customer profile, service and billing information.
-        </div>
+    st.divider()
 
-    </div>
-    """, unsafe_allow_html=True)
+    # Overview
 
-
-    # -------- OVERVIEW METRICS --------
-
-    st.subheader("📌 System Overview")
+    st.header("📌 System Overview")
 
     c1, c2, c3 = st.columns(3)
 
     with c1:
+
         st.metric(
             "🤖 Machine Learning",
             "XGBoost"
         )
 
     with c2:
+
         st.metric(
             "🎯 Task",
             "Binary Classification"
         )
 
     with c3:
+
         st.metric(
             "📊 Prediction",
             "Churn / Stay"
         )
 
+    st.divider()
 
-    st.markdown("")
+    # How it works
 
-
-    # -------- HOW IT WORKS --------
-
-    st.subheader("⚙️ How the System Works")
+    st.header("⚙️ How It Works")
 
     h1, h2, h3 = st.columns(3)
 
     with h1:
-        with st.container(border=True):
-            st.markdown("### 01 · 👤 Customer Data")
-            st.write(
-                "Enter customer profile, service, contract "
-                "and billing information."
-            )
 
-    with h2:
-        with st.container(border=True):
-            st.markdown("### 02 · 🧠 XGBoost Model")
-            st.write(
-                "The trained XGBoost model processes the "
-                "customer information."
-            )
-
-    with h3:
-        with st.container(border=True):
-            st.markdown("### 03 · 🎯 Risk Prediction")
-            st.write(
-                "The system estimates churn probability "
-                "and displays the prediction."
-            )
-
-
-    st.markdown("")
-
-    with st.container(border=True):
-
-        st.subheader("💡 About Customer Churn")
+        st.subheader("01 · 👤 Customer Data")
 
         st.write(
-            "Customer churn refers to customers discontinuing "
-            "a service. Predictive analytics can help identify "
-            "customers who may be at higher risk of churn."
+            "Enter customer profile, service, "
+            "contract and billing information."
         )
+
+    with h2:
+
+        st.subheader("02 · 🧠 XGBoost")
+
+        st.write(
+            "The trained XGBoost model processes "
+            "the customer information."
+        )
+
+    with h3:
+
+        st.subheader("03 · 🎯 Prediction")
+
+        st.write(
+            "The system estimates churn probability "
+            "and displays the prediction."
+        )
+
+    st.divider()
+
+    st.info(
+        "💡 Customer churn refers to customers "
+        "discontinuing a service. This system uses "
+        "machine learning to estimate churn probability."
+    )
 
 
 # =========================================================
@@ -462,210 +233,193 @@ if page == "🏠 Dashboard":
 
 elif page == "🎯 Churn Prediction":
 
-    st.markdown("""
-    <div class="hero-box">
+    st.title("🎯 Customer Churn Prediction")
 
-        <div class="hero-label">
-            Prediction Workspace
-        </div>
+    st.write(
+        "Enter the customer's information below "
+        "to generate an XGBoost churn prediction."
+    )
 
-        <div class="hero-title">
-            🎯 Customer Churn Prediction
-        </div>
-
-        <div class="hero-text">
-            Enter the customer's information below and use
-            the trained XGBoost model to estimate churn risk.
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
-
+    st.divider()
 
     # =====================================================
     # CUSTOMER DETAILS
     # =====================================================
 
-    with st.container(border=True):
+    st.header("👤 Customer Profile")
 
-        st.subheader("👤 Customer Profile")
-        st.caption(
-            "Basic demographic and customer relationship information"
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+
+        gender = st.selectbox(
+            "Gender",
+            ["Female", "Male"]
         )
 
-        col1, col2, col3 = st.columns(3)
+        senior = st.selectbox(
+            "Senior Citizen",
+            [0, 1]
+        )
 
-        with col1:
+    with col2:
 
-            gender = st.selectbox(
-                "Gender",
-                ["Female", "Male"]
-            )
+        partner = st.selectbox(
+            "Partner",
+            ["Yes", "No"]
+        )
 
-            senior = st.selectbox(
-                "Senior Citizen",
-                [0, 1]
-            )
+        dependents = st.selectbox(
+            "Dependents",
+            ["Yes", "No"]
+        )
 
-        with col2:
+    with col3:
 
-            partner = st.selectbox(
-                "Partner",
-                ["Yes", "No"]
-            )
+        tenure = st.number_input(
+            "Tenure (Months)",
+            min_value=0,
+            max_value=100,
+            value=12
+        )
 
-            dependents = st.selectbox(
-                "Dependents",
-                ["Yes", "No"]
-            )
+        phone = st.selectbox(
+            "Phone Service",
+            ["Yes", "No"]
+        )
 
-        with col3:
 
-            tenure = st.number_input(
-                "Tenure (Months)",
-                min_value=0,
-                max_value=100,
-                value=12
-            )
-
-            phone = st.selectbox(
-                "Phone Service",
-                ["Yes", "No"]
-            )
+    st.divider()
 
 
     # =====================================================
     # INTERNET & SERVICES
     # =====================================================
 
-    with st.container(border=True):
+    st.header("🌐 Internet & Services")
 
-        st.subheader("🌐 Internet & Services")
-        st.caption(
-            "Customer's subscribed internet and additional services"
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+
+        multiple_lines = st.selectbox(
+            "Multiple Lines",
+            ["Yes", "No", "No phone service"]
         )
 
-        col1, col2, col3 = st.columns(3)
+        internet = st.selectbox(
+            "Internet Service",
+            ["DSL", "Fiber optic", "No"]
+        )
 
-        with col1:
+    with col2:
 
-            multiple_lines = st.selectbox(
-                "Multiple Lines",
-                ["Yes", "No", "No phone service"]
-            )
+        security = st.selectbox(
+            "Online Security",
+            ["Yes", "No", "No internet service"]
+        )
 
-            internet = st.selectbox(
-                "Internet Service",
-                ["DSL", "Fiber optic", "No"]
-            )
+        backup = st.selectbox(
+            "Online Backup",
+            ["Yes", "No", "No internet service"]
+        )
 
-        with col2:
+    with col3:
 
-            security = st.selectbox(
-                "Online Security",
-                ["Yes", "No", "No internet service"]
-            )
+        protection = st.selectbox(
+            "Device Protection",
+            ["Yes", "No", "No internet service"]
+        )
 
-            backup = st.selectbox(
-                "Online Backup",
-                ["Yes", "No", "No internet service"]
-            )
+        support = st.selectbox(
+            "Tech Support",
+            ["Yes", "No", "No internet service"]
+        )
 
-        with col3:
+    col4, col5 = st.columns(2)
 
-            protection = st.selectbox(
-                "Device Protection",
-                ["Yes", "No", "No internet service"]
-            )
+    with col4:
 
-            support = st.selectbox(
-                "Tech Support",
-                ["Yes", "No", "No internet service"]
-            )
+        streaming_tv = st.selectbox(
+            "Streaming TV",
+            ["Yes", "No", "No internet service"]
+        )
 
-        col4, col5 = st.columns(2)
+    with col5:
 
-        with col4:
+        streaming_movies = st.selectbox(
+            "Streaming Movies",
+            ["Yes", "No", "No internet service"]
+        )
 
-            streaming_tv = st.selectbox(
-                "Streaming TV",
-                ["Yes", "No", "No internet service"]
-            )
 
-        with col5:
-
-            streaming_movies = st.selectbox(
-                "Streaming Movies",
-                ["Yes", "No", "No internet service"]
-            )
+    st.divider()
 
 
     # =====================================================
     # CONTRACT & BILLING
     # =====================================================
 
-    with st.container(border=True):
+    st.header("💳 Contract & Billing")
 
-        st.subheader("💳 Contract & Billing")
-        st.caption(
-            "Contract type, payment information and charges"
+    bill1, bill2, bill3 = st.columns(3)
+
+    with bill1:
+
+        contract = st.selectbox(
+            "Contract",
+            [
+                "Month-to-month",
+                "One year",
+                "Two year"
+            ]
         )
 
-        bill1, bill2, bill3 = st.columns(3)
+        paperless = st.selectbox(
+            "Paperless Billing",
+            ["Yes", "No"]
+        )
 
-        with bill1:
+    with bill2:
 
-            contract = st.selectbox(
-                "Contract",
-                [
-                    "Month-to-month",
-                    "One year",
-                    "Two year"
-                ]
-            )
+        payment = st.selectbox(
+            "Payment Method",
+            [
+                "Electronic check",
+                "Mailed check",
+                "Bank transfer (automatic)",
+                "Credit card (automatic)"
+            ]
+        )
 
-            paperless = st.selectbox(
-                "Paperless Billing",
-                ["Yes", "No"]
-            )
+    with bill3:
 
-        with bill2:
+        monthly = st.number_input(
+            "Monthly Charges ($)",
+            min_value=0.0,
+            max_value=200.0,
+            value=70.0
+        )
 
-            payment = st.selectbox(
-                "Payment Method",
-                [
-                    "Electronic check",
-                    "Mailed check",
-                    "Bank transfer (automatic)",
-                    "Credit card (automatic)"
-                ]
-            )
+        total = st.number_input(
+            "Total Charges ($)",
+            min_value=0.0,
+            max_value=10000.0,
+            value=800.0
+        )
 
-        with bill3:
 
-            monthly = st.number_input(
-                "Monthly Charges ($)",
-                min_value=0.0,
-                max_value=200.0,
-                value=70.0
-            )
-
-            total = st.number_input(
-                "Total Charges ($)",
-                min_value=0.0,
-                max_value=10000.0,
-                value=800.0
-            )
+    st.divider()
 
 
     # =====================================================
-    # PREDICT BUTTON
+    # PREDICTION BUTTON
     # =====================================================
 
-    st.markdown("")
+    st.header("🔮 Generate Prediction")
 
     predict_button = st.button(
-        "🚀  Predict Customer Churn",
+        "🚀 Predict Customer Churn",
         type="primary",
         use_container_width=True
     )
@@ -755,141 +509,117 @@ elif page == "🎯 Churn Prediction":
             probability_percent = probability * 100
 
 
-            st.markdown("---")
-
             # =================================================
             # RESULT
             # =================================================
 
-            st.subheader("📊 Prediction Result")
+            st.divider()
 
-            result1, result2 = st.columns([1.2, 1])
+            st.header("📊 Prediction Result")
 
+            if prediction == 1:
 
-            # -------- RESULT MESSAGE --------
+                st.error(
+                    "⚠️ HIGH CHURN RISK"
+                )
 
-            with result1:
+                st.subheader(
+                    "⚠️ Customer is likely to CHURN"
+                )
 
-                if prediction == 1:
+                st.write(
+                    "The trained XGBoost model estimates "
+                    "a higher probability of service churn."
+                )
 
-                    st.error(
-                        "⚠️ HIGH CHURN RISK"
-                    )
+            else:
 
-                    st.markdown(
-                        "### ⚠️ Customer is likely to **CHURN**"
-                    )
+                st.success(
+                    "✅ LOW CHURN RISK"
+                )
 
-                    st.write(
-                        "The trained model estimates a higher "
-                        "probability of service discontinuation."
-                    )
+                st.subheader(
+                    "✅ Customer is likely to STAY"
+                )
 
-                    st.warning(
-                        "Consider reviewing this customer's "
-                        "service and retention requirements."
-                    )
-
-                else:
-
-                    st.success(
-                        "✅ LOW CHURN RISK"
-                    )
-
-                    st.markdown(
-                        "### ✅ Customer is likely to **STAY**"
-                    )
-
-                    st.write(
-                        "The trained model estimates a lower "
-                        "probability of service discontinuation."
-                    )
-
-                    st.info(
-                        "The customer is predicted to continue "
-                        "the service."
-                    )
+                st.write(
+                    "The trained XGBoost model estimates "
+                    "a lower probability of service churn."
+                )
 
 
-            # -------- GAUGE --------
+            # =================================================
+            # GAUGE
+            # =================================================
 
-            with result2:
+            st.subheader("🎯 Churn Probability")
 
-                gauge = go.Figure(
-                    go.Indicator(
-                        mode="gauge+number",
-                        value=probability_percent,
-                        number={
-                            "suffix": "%",
-                            "font": {
-                                "size": 32,
-                                "color": "#173f70"
-                            }
-                        },
-                        title={
-                            "text": "Churn Probability",
-                            "font": {
-                                "size": 18,
-                                "color": "#536579"
-                            }
-                        },
-                        gauge={
-                            "axis": {
-                                "range": [0, 100],
-                                "tickwidth": 1
-                            },
-                            "bar": {
-                                "color": "#1769aa"
-                            },
-                            "bgcolor": "#eef4fa",
-                            "borderwidth": 1,
-                            "bordercolor": "#d3e0ec",
-                            "steps": [
-                                {
-                                    "range": [0, 40],
-                                    "color": "#e8f7ef"
-                                },
-                                {
-                                    "range": [40, 70],
-                                    "color": "#fff6df"
-                                },
-                                {
-                                    "range": [70, 100],
-                                    "color": "#fdeaea"
-                                }
-                            ]
+            gauge = go.Figure(
+                go.Indicator(
+                    mode="gauge+number",
+                    value=probability_percent,
+
+                    number={
+                        "suffix": "%",
+                        "font": {
+                            "size": 36
                         }
-                    )
-                )
+                    },
 
-                gauge.update_layout(
-                    height=280,
-                    margin=dict(
-                        l=20,
-                        r=20,
-                        t=50,
-                        b=20
-                    ),
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    font=dict(
-                        family="Arial"
-                    )
-                )
+                    title={
+                        "text": "Estimated Churn Probability"
+                    },
 
-                st.plotly_chart(
-                    gauge,
-                    use_container_width=True,
-                    config={
-                        "displayModeBar": False
+                    gauge={
+                        "axis": {
+                            "range": [0, 100]
+                        },
+
+                        "bar": {
+                            "color": "#1769AA"
+                        },
+
+                        "steps": [
+                            {
+                                "range": [0, 40],
+                                "color": "#DDF5E5"
+                            },
+                            {
+                                "range": [40, 70],
+                                "color": "#FFF1CC"
+                            },
+                            {
+                                "range": [70, 100],
+                                "color": "#FFE0E0"
+                            }
+                        ]
                     }
                 )
+            )
+
+            gauge.update_layout(
+                height=300,
+                margin=dict(
+                    l=30,
+                    r=30,
+                    t=60,
+                    b=20
+                ),
+                paper_bgcolor="rgba(0,0,0,0)"
+            )
+
+            st.plotly_chart(
+                gauge,
+                use_container_width=True,
+                config={
+                    "displayModeBar": False
+                }
+            )
 
 
             # =================================================
-            # SUMMARY
+            # METRICS
             # =================================================
-
-            st.markdown("")
 
             st.subheader("📈 Prediction Summary")
 
@@ -918,30 +648,24 @@ elif page == "🎯 Churn Prediction":
 
 
             # =================================================
-            # PROBABILITY
+            # PROGRESS
             # =================================================
 
-            st.markdown("")
+            st.subheader("📊 Probability Level")
 
-            with st.container(border=True):
+            st.progress(
+                float(probability)
+            )
 
-                st.subheader("🎯 Churn Probability")
-
-                st.progress(
-                    float(probability)
-                )
-
-                st.caption(
-                    f"Estimated churn probability: "
-                    f"{probability_percent:.2f}%"
-                )
+            st.caption(
+                f"Estimated churn probability: "
+                f"{probability_percent:.2f}%"
+            )
 
 
             # =================================================
-            # CUSTOMER SNAPSHOT
+            # CUSTOMER SUMMARY
             # =================================================
-
-            st.markdown("")
 
             with st.expander(
                 "👁️ View Customer Input Summary"
@@ -1019,129 +743,101 @@ elif page == "🎯 Churn Prediction":
 
 elif page == "🤖 Model Information":
 
-    st.markdown("""
-    <div class="hero-box">
+    st.title("🤖 XGBoost Model")
 
-        <div class="hero-label">
-            Machine Learning Model
-        </div>
+    st.write(
+        "Information about the trained customer churn "
+        "classification model."
+    )
 
-        <div class="hero-title">
-            🤖 XGBoost Model
-        </div>
-
-        <div class="hero-text">
-            Customer churn classification using the trained
-            XGBoost model.
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
-
+    st.divider()
 
     c1, c2 = st.columns(2)
 
     with c1:
 
-        with st.container(border=True):
+        st.subheader("🧠 Model Details")
 
-            st.subheader("🧠 Model")
+        st.write(
+            "**Algorithm:** XGBoost Classifier"
+        )
 
-            st.write(
-                "**Algorithm:** XGBoost Classifier"
-            )
+        st.write(
+            "**Task:** Binary Classification"
+        )
 
-            st.write(
-                "**Task:** Binary Classification"
-            )
+        st.write(
+            "**Output:** Churn / Stay"
+        )
 
-            st.write(
-                "**Output:** Churn / Stay"
-            )
-
-            st.write(
-                "**Probability:** Churn probability"
-            )
-
+        st.write(
+            "**Prediction:** Churn Probability"
+        )
 
     with c2:
 
-        with st.container(border=True):
-
-            st.subheader("📊 Input Categories")
-
-            st.write(
-                "• Customer profile"
-            )
-
-            st.write(
-                "• Internet services"
-            )
-
-            st.write(
-                "• Additional services"
-            )
-
-            st.write(
-                "• Contract information"
-            )
-
-            st.write(
-                "• Billing information"
-            )
-
-
-    st.markdown("")
-
-    with st.container(border=True):
-
-        st.subheader("🔧 Prediction Process")
+        st.subheader("📊 Input Categories")
 
         st.write(
-            "1. Customer information is collected."
+            "• Customer profile"
         )
 
         st.write(
-            "2. Categorical information is encoded."
+            "• Internet services"
         )
 
         st.write(
-            "3. Input features are aligned with the trained model."
+            "• Additional services"
         )
 
         st.write(
-            "4. The XGBoost model generates the prediction."
+            "• Contract information"
         )
 
         st.write(
-            "5. Churn probability is displayed."
+            "• Billing information"
         )
 
 
-    st.markdown("")
+    st.divider()
 
-    with st.container(border=True):
+    st.subheader("🔧 Prediction Process")
 
-        st.subheader("📌 Model Features")
+    st.write(
+        "1. Customer information is collected."
+    )
 
-        st.write(
-            f"The trained model uses "
-            f"**{len(model_features)} input features** "
-            f"after preprocessing."
-        )
+    st.write(
+        "2. Categorical variables are encoded."
+    )
+
+    st.write(
+        "3. Features are aligned with the trained model."
+    )
+
+    st.write(
+        "4. XGBoost generates the prediction."
+    )
+
+    st.write(
+        "5. Churn probability is displayed."
+    )
+
+
+    st.divider()
+
+    st.info(
+        f"The trained XGBoost model contains "
+        f"{len(model_features)} processed input features."
+    )
 
 
 # =========================================================
 # FOOTER
 # =========================================================
 
-st.markdown(
-    """
-    <div class="footer-text">
-        Customer Churn AI • XGBoost Classification System
-        <br>
-        Built for Machine Learning Project
-    </div>
-    """,
-    unsafe_allow_html=True
+st.divider()
+
+st.caption(
+    "Customer Churn AI • XGBoost Classification System"
 )
