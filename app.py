@@ -4,123 +4,118 @@ import plotly.graph_objects as go
 from xgboost import XGBClassifier
 
 
-# =========================================================
-# PAGE CONFIG
-# =========================================================
+# ==========================================================
+# PAGE SETTINGS
+# ==========================================================
 
 st.set_page_config(
-    page_title="ChurnAI | Customer Churn Prediction",
+    page_title="Customer Churn AI",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 
-# =========================================================
-# LIGHT PROFESSIONAL THEME
-# =========================================================
+# ==========================================================
+# PAGE STYLE
+# ==========================================================
 
 st.markdown(
     """
     <style>
 
+    /* Main background */
     .stApp {
-        background:
-        linear-gradient(
+        background: linear-gradient(
             135deg,
             #f8fbff 0%,
             #eef6ff 50%,
-            #f7f3ff 100%
+            #f8f5ff 100%
         );
     }
 
+    /* Main width */
     .block-container {
         max-width: 1350px;
-        padding-top: 2rem;
-        padding-bottom: 3rem;
+        padding-top: 30px;
+        padding-bottom: 40px;
     }
 
+    /* Sidebar */
     section[data-testid="stSidebar"] {
         background-color: #ffffff;
         border-right: 1px solid #e5eaf2;
     }
 
-    section[data-testid="stSidebar"] * {
-        color: #26364f;
-    }
-
+    /* Headings */
     h1 {
-        color: #172b4d !important;
+        color: #17365d !important;
         font-weight: 800 !important;
     }
 
     h2 {
-        color: #203653 !important;
+        color: #21466f !important;
         font-weight: 750 !important;
     }
 
     h3 {
-        color: #29415f !important;
+        color: #315579 !important;
         font-weight: 700 !important;
     }
 
-    p {
-        color: #64748b;
-    }
-
-    div[data-testid="stMetric"] {
-        background-color: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 18px;
-        padding: 18px;
-        box-shadow: 0 8px 25px rgba(50, 75, 110, 0.08);
-    }
-
+    /* Input fields */
     div[data-baseweb="select"] > div {
         background-color: #ffffff;
         border-radius: 10px;
-        border-color: #d9e2ef;
+        border-color: #d9e3ef;
     }
 
     div[data-baseweb="input"] > div {
         background-color: #ffffff;
         border-radius: 10px;
-        border-color: #d9e2ef;
+        border-color: #d9e3ef;
     }
 
+    /* Button */
     .stButton > button {
         width: 100%;
-        min-height: 52px;
-        border-radius: 13px;
+        height: 52px;
+        border-radius: 12px;
         border: none;
         background: linear-gradient(
             90deg,
             #3978e8,
-            #7055e8
+            #6c55e8
         );
         color: white;
-        font-weight: 700;
         font-size: 16px;
-        box-shadow: 0 8px 20px rgba(70, 90, 220, 0.22);
+        font-weight: 700;
+        box-shadow: 0 8px 20px rgba(70, 90, 220, 0.20);
     }
 
     .stButton > button:hover {
+        color: white;
         background: linear-gradient(
             90deg,
-            #2869da,
-            #6045d8
+            #2868d8,
+            #5d46d7
         );
-        color: white;
     }
 
+    /* Metrics */
+    div[data-testid="stMetric"] {
+        background-color: white;
+        border: 1px solid #e1e8f0;
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: 0 5px 18px rgba(40, 70, 110, 0.07);
+    }
+
+    /* Expander */
     div[data-testid="stExpander"] {
-        background-color: #ffffff;
-        border: 1px solid #e1e8f2;
+        background-color: white;
+        border: 1px solid #e1e8f0;
         border-radius: 14px;
-    }
-
-    hr {
-        border-color: #dfe7f1;
     }
 
     </style>
@@ -129,9 +124,9 @@ st.markdown(
 )
 
 
-# =========================================================
-# LOAD XGBOOST MODEL
-# =========================================================
+# ==========================================================
+# LOAD MODEL
+# ==========================================================
 
 @st.cache_resource
 def load_model():
@@ -145,72 +140,66 @@ def load_model():
 
 model = load_model()
 
-# Get feature names directly from trained model
+# IMPORTANT:
+# Get the exact features stored inside your trained model.
 model_features = model.get_booster().feature_names
 
 
-# =========================================================
+# ==========================================================
 # SIDEBAR
-# =========================================================
+# ==========================================================
 
 with st.sidebar:
 
     st.title("🤖 ChurnAI")
 
-    st.caption("Customer Churn Intelligence")
+    st.caption("Customer Churn Prediction System")
 
     st.divider()
 
-    st.subheader("🧠 Model")
+    st.subheader("🧠 Machine Learning Model")
 
-    st.write("**Algorithm:** XGBoost")
+    st.write("**Algorithm**")
+    st.write("XGBoost Classifier")
 
-    st.write("**Task:** Binary Classification")
+    st.write("**Problem Type**")
+    st.write("Binary Classification")
 
-    st.write("**Output:** Churn Probability")
+    st.write("**Prediction**")
+    st.write("Customer Churn")
 
     st.divider()
 
-    st.subheader("📋 Analysis Areas")
+    st.subheader("📊 Analysis")
 
     st.write("👤 Customer Profile")
-
     st.write("📈 Customer Value")
-
-    st.write("🌐 Service Information")
-
-    st.write("💳 Billing & Payment")
+    st.write("🌐 Services")
+    st.write("💳 Billing")
 
     st.divider()
 
     st.info(
-        "This application uses a trained XGBoost "
-        "model to estimate customer churn risk."
+        "Enter customer details and use the trained "
+        "XGBoost model to estimate churn probability."
     )
 
-    st.caption("AI / ML Project")
 
-
-# =========================================================
-# MAIN HEADER
-# =========================================================
+# ==========================================================
+# MAIN TITLE
+# ==========================================================
 
 st.title("🤖 Customer Churn Prediction")
 
-st.caption(
-    "AI-powered customer churn analysis using an XGBoost "
-    "machine learning model."
-)
-
-st.info(
-    "Enter the customer's information below and click "
-    "**Predict Customer Churn** to generate the prediction."
+st.write(
+    "Analyze customer information and predict the probability "
+    "of customer churn using an XGBoost machine learning model."
 )
 
 
-# =========================================================
+# ==========================================================
 # CUSTOMER PROFILE
-# =========================================================
+# ==========================================================
 
 st.header("👤 Customer Profile")
 
@@ -245,9 +234,9 @@ with col4:
     )
 
 
-# =========================================================
+# ==========================================================
 # CUSTOMER VALUE
-# =========================================================
+# ==========================================================
 
 st.header("📈 Customer Value")
 
@@ -284,9 +273,9 @@ with col3:
     )
 
 
-# =========================================================
+# ==========================================================
 # SERVICE INFORMATION
-# =========================================================
+# ==========================================================
 
 st.header("🌐 Service Information")
 
@@ -373,9 +362,9 @@ with col2:
     )
 
 
-# =========================================================
-# BILLING
-# =========================================================
+# ==========================================================
+# BILLING INFORMATION
+# ==========================================================
 
 st.header("💳 Billing & Payment")
 
@@ -401,31 +390,31 @@ with col2:
     )
 
 
-# =========================================================
+# ==========================================================
 # PREDICT BUTTON
-# =========================================================
+# ==========================================================
 
 st.divider()
 
-left, center, right = st.columns([1, 2, 1])
+col1, col2, col3 = st.columns([1, 2, 1])
 
-with center:
+with col2:
 
-    analyze = st.button(
-        "🔮 Predict Customer Churn",
+    predict_button = st.button(
+        "🔮  PREDICT CUSTOMER CHURN",
         use_container_width=True
     )
 
 
-# =========================================================
+# ==========================================================
 # PREDICTION
-# =========================================================
+# ==========================================================
 
-if analyze:
+if predict_button:
 
-    # -----------------------------------------------------
+    # ------------------------------------------------------
     # CREATE CUSTOMER DATA
-    # -----------------------------------------------------
+    # ------------------------------------------------------
 
     customer = pd.DataFrame({
 
@@ -471,9 +460,9 @@ if analyze:
     })
 
 
-    # -----------------------------------------------------
-    # ENCODE CUSTOMER DATA
-    # -----------------------------------------------------
+    # ------------------------------------------------------
+    # ENCODING
+    # ------------------------------------------------------
 
     customer_encoded = pd.get_dummies(
         customer,
@@ -488,9 +477,9 @@ if analyze:
     customer_encoded = customer_encoded.astype(float)
 
 
-    # -----------------------------------------------------
-    # ORIGINAL XGBOOST PREDICTION
-    # -----------------------------------------------------
+    # ------------------------------------------------------
+    # XGBOOST PREDICTION
+    # ------------------------------------------------------
 
     prediction = model.predict(
         customer_encoded
@@ -503,9 +492,9 @@ if analyze:
     stay_probability = 1 - probability
 
 
-    # =====================================================
-    # AI PREDICTION
-    # =====================================================
+    # ======================================================
+    # RESULT
+    # ======================================================
 
     st.divider()
 
@@ -514,7 +503,7 @@ if analyze:
     if prediction == 1:
 
         st.error(
-            "⚠️ Customer At Risk\n\n"
+            "⚠️ CUSTOMER AT RISK\n\n"
             "The model predicts a higher probability "
             "of customer churn."
         )
@@ -522,15 +511,15 @@ if analyze:
     else:
 
         st.success(
-            "✅ Customer Likely to Stay\n\n"
+            "✅ CUSTOMER LIKELY TO STAY\n\n"
             "The model predicts a higher probability "
             "of customer retention."
         )
 
 
-    # =====================================================
-    # PROBABILITY METRICS
-    # =====================================================
+    # ======================================================
+    # RESULT METRICS
+    # ======================================================
 
     st.subheader("📊 Prediction Summary")
 
@@ -552,90 +541,71 @@ if analyze:
 
     with col3:
 
-        if probability >= 0.5:
+        if prediction == 1:
 
-            risk_status = "Higher Risk"
+            status = "Higher Risk"
 
         else:
 
-            risk_status = "Lower Risk"
+            status = "Lower Risk"
 
         st.metric(
             "Risk Status",
-            risk_status
+            status
         )
 
 
-    # =====================================================
-    # CHURN PROBABILITY CHART
-    # =====================================================
+    # ======================================================
+    # PROBABILITY CHART
+    # ======================================================
 
     st.subheader("📈 Prediction Analysis")
 
-    chart_col1, chart_col2 = st.columns(
-        [1.35, 1]
-    )
+    chart1, chart2 = st.columns([1.4, 1])
 
 
-    with chart_col1:
+    with chart1:
 
         fig = go.Figure()
 
         fig.add_trace(
             go.Bar(
-                x=[
-                    "Stay",
-                    "Churn"
-                ],
-
+                x=["Stay", "Churn"],
                 y=[
                     stay_probability * 100,
                     probability * 100
                 ],
-
                 text=[
                     f"{stay_probability * 100:.1f}%",
                     f"{probability * 100:.1f}%"
                 ],
-
                 textposition="outside",
-
-                marker=dict(
-                    color=[
-                        "#4F8FEF",
-                        "#8B6FE8"
-                    ]
-                )
+                marker_color=[
+                    "#4F8FEF",
+                    "#8B6FE8"
+                ]
             )
         )
 
         fig.update_layout(
 
-            title="Customer Probability",
+            title="Customer Churn Probability",
 
             yaxis=dict(
                 title="Probability (%)",
                 range=[0, 110]
             ),
 
-            xaxis=dict(
-                title=""
-            ),
-
-            height=380,
+            height=400,
 
             template="plotly_white",
 
             margin=dict(
                 l=40,
                 r=30,
-                t=65,
+                t=60,
                 b=40
-            ),
-
-            paper_bgcolor="rgba(0,0,0,0)",
-
-            plot_bgcolor="rgba(0,0,0,0)"
+            )
         )
 
         st.plotly_chart(
@@ -644,11 +614,7 @@ if analyze:
         )
 
 
-    # =====================================================
-    # PREDICTION INSIGHT
-    # =====================================================
-
-    with chart_col2:
+    with chart2:
 
         st.subheader("🔍 Prediction Insight")
 
@@ -664,42 +630,42 @@ if analyze:
             float(probability)
         )
 
-        st.caption(
-            f"Churn probability: "
+        st.write(
+            f"**Churn Probability:** "
             f"{probability * 100:.1f}%"
         )
 
-        st.write("")
+        st.write(
+            f"**Stay Probability:** "
+            f"{stay_probability * 100:.1f}%"
+        )
 
-        if probability >= 0.5:
+        if prediction == 1:
 
             st.warning(
-                "The predicted churn probability is "
-                "above 50%."
+                "The model has classified this customer "
+                "as having a higher churn probability."
             )
 
         else:
 
             st.info(
-                "The predicted churn probability is "
-                "below 50%."
+                "The model has classified this customer "
+                "as having a lower churn probability."
             )
 
 
-    # =====================================================
+    # ======================================================
     # CUSTOMER INFORMATION
-    # =====================================================
+    # ======================================================
 
     st.subheader("📋 Customer Information")
 
-    with st.expander(
-        "View Customer Input Details"
-    ):
+    with st.expander("View Customer Details"):
 
-        summary = pd.DataFrame({
+        customer_summary = pd.DataFrame({
 
             "Feature": [
-
                 "Gender",
                 "Senior Citizen",
                 "Partner",
@@ -719,11 +685,9 @@ if analyze:
                 "Payment Method",
                 "Monthly Charges",
                 "Total Charges"
-
             ],
 
             "Value": [
-
                 gender,
                 senior_citizen,
                 partner,
@@ -743,25 +707,23 @@ if analyze:
                 payment_method,
                 f"${monthly_charges:.2f}",
                 f"${total_charges:.2f}"
-
             ]
-
         })
 
         st.dataframe(
-            summary,
+            customer_summary,
             use_container_width=True,
             hide_index=True
         )
 
 
-# =========================================================
+# ==========================================================
 # FOOTER
-# =========================================================
+# ==========================================================
 
 st.divider()
 
 st.caption(
-    "🤖 ChurnAI • Customer Churn Analysis • "
+    "🤖 ChurnAI | Customer Churn Analysis | "
     "XGBoost Machine Learning"
 )
