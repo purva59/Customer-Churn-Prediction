@@ -5,201 +5,124 @@ from xgboost import XGBClassifier
 
 
 # ============================================================
-# PAGE CONFIGURATION
+# PAGE SETTINGS
 # ============================================================
 
 st.set_page_config(
     page_title="Customer Churn Prediction",
     page_icon="📊",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
 
 # ============================================================
-# CUSTOM CSS
+# SIMPLE PROFESSIONAL CSS
 # ============================================================
 
 st.markdown("""
 <style>
 
-    /* Main background */
     .stApp {
-        background: #f4f7fb;
+        background-color: #f5f7fb;
     }
 
-    /* Remove top padding */
     .block-container {
         padding-top: 2rem;
         padding-bottom: 2rem;
-        max-width: 1400px;
     }
 
-    /* Header */
-    .main-header {
-        background: linear-gradient(135deg, #173b8f, #2563eb);
-        padding: 35px 40px;
-        border-radius: 22px;
-        margin-bottom: 25px;
-        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.20);
-    }
-
-    .main-title {
-        color: white;
+    .title {
+        text-align: center;
         font-size: 42px;
         font-weight: 800;
-        margin: 0;
-        text-align: center;
+        color: #173b8f;
+        margin-bottom: 5px;
     }
 
-    .main-subtitle {
-        color: #e8efff;
+    .subtitle {
+        text-align: center;
+        color: #64748b;
         font-size: 17px;
-        text-align: center;
-        margin-top: 8px;
+        margin-bottom: 25px;
     }
 
-    .model-badge {
-        text-align: center;
-        margin-top: 18px;
-    }
-
-    .badge {
-        display: inline-block;
-        background: rgba(255,255,255,0.16);
-        color: white;
-        padding: 8px 18px;
-        border-radius: 30px;
-        font-size: 14px;
-        font-weight: 600;
-        border: 1px solid rgba(255,255,255,0.25);
-    }
-
-    /* Section title */
-    .section-title {
-        font-size: 24px;
+    .section {
+        font-size: 25px;
         font-weight: 750;
         color: #172554;
-        margin-top: 12px;
+        margin-top: 20px;
         margin-bottom: 15px;
     }
 
-    /* Cards */
-    .custom-card {
-        background: white;
-        padding: 25px;
-        border-radius: 18px;
-        border: 1px solid #e5eaf3;
-        box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+    .card {
+        background-color: white;
+        padding: 22px;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
         margin-bottom: 20px;
     }
 
-    /* Small information cards */
-    .info-card {
-        background: white;
-        padding: 20px;
-        border-radius: 16px;
-        border: 1px solid #e5eaf3;
+    .result-card {
+        background-color: white;
+        padding: 30px;
+        border-radius: 18px;
         text-align: center;
-        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+        border: 1px solid #e2e8f0;
+        margin-top: 15px;
+        margin-bottom: 20px;
     }
 
-    .info-icon {
-        font-size: 27px;
+    .result-title {
+        font-size: 30px;
+        font-weight: 800;
+        margin-bottom: 10px;
     }
 
-    .info-title {
+    .result-text {
+        font-size: 18px;
+        color: #475569;
+    }
+
+    .probability {
+        font-size: 38px;
+        font-weight: 800;
+        margin-top: 8px;
+    }
+
+    .small-card {
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    .small-icon {
+        font-size: 28px;
+    }
+
+    .small-title {
         color: #64748b;
-        font-size: 13px;
+        font-size: 14px;
         margin-top: 5px;
     }
 
-    .info-value {
+    .small-value {
         color: #172554;
         font-size: 21px;
         font-weight: 750;
-        margin-top: 4px;
+        margin-top: 5px;
     }
 
-    /* Result cards */
-    .risk-high {
-        background: linear-gradient(135deg, #fff1f2, #ffe4e6);
-        border: 1px solid #fecdd3;
-        padding: 28px;
-        border-radius: 20px;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .risk-low {
-        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-        border: 1px solid #bbf7d0;
-        padding: 28px;
-        border-radius: 20px;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .risk-title {
-        font-size: 30px;
-        font-weight: 800;
-    }
-
-    .risk-high .risk-title {
-        color: #be123c;
-    }
-
-    .risk-low .risk-title {
-        color: #15803d;
-    }
-
-    .risk-probability {
-        font-size: 23px;
-        font-weight: 700;
-        margin-top: 10px;
-        color: #172554;
-    }
-
-    /* Footer */
     .footer {
         text-align: center;
         color: #64748b;
-        font-size: 13px;
-        padding: 25px 0 5px 0;
-        margin-top: 30px;
+        margin-top: 35px;
+        padding-top: 20px;
         border-top: 1px solid #e2e8f0;
-    }
-
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: #ffffff;
-        border-right: 1px solid #e5eaf3;
-    }
-
-    /* Button */
-    .stButton > button {
-        background: linear-gradient(135deg, #173b8f, #2563eb);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 13px;
-        font-size: 17px;
-        font-weight: 700;
-        transition: 0.2s;
-    }
-
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 7px 18px rgba(37, 99, 235, 0.25);
-    }
-
-    /* Metric styling */
-    [data-testid="stMetric"] {
-        background: white;
-        padding: 18px;
-        border-radius: 15px;
-        border: 1px solid #e5eaf3;
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+        font-size: 13px;
     }
 
 </style>
@@ -207,7 +130,7 @@ st.markdown("""
 
 
 # ============================================================
-# LOAD YOUR EXISTING XGBOOST MODEL
+# LOAD EXISTING XGBOOST MODEL
 # ============================================================
 
 @st.cache_resource
@@ -227,13 +150,11 @@ try:
 except Exception as e:
 
     st.error("❌ Model could not be loaded.")
-
     st.code(str(e))
-
     st.stop()
 
 
-# Get feature names directly from your trained XGBoost model
+# Get feature names directly from your trained model
 model_features = model.get_booster().feature_names
 
 
@@ -250,62 +171,38 @@ if model_features is None:
 # HEADER
 # ============================================================
 
-st.markdown("""
-<div class="main-header">
+st.markdown(
+    '<div class="title">📊 Customer Churn Prediction</div>',
+    unsafe_allow_html=True
+)
 
-    <div class="main-title">
-        📊 Customer Churn Prediction
-    </div>
+st.markdown(
+    '<div class="subtitle">Customer Churn Analysis using XGBoost Classification</div>',
+    unsafe_allow_html=True
+)
 
-    <div class="main-subtitle">
-        Predict whether a customer is likely to discontinue the service
-        using the trained XGBoost classification model.
-    </div>
-
-    <div class="model-badge">
-        <span class="badge">
-            ⚡ Powered by XGBoost
-        </span>
-    </div>
-
-</div>
-""", unsafe_allow_html=True)
+st.info(
+    "⚡ Powered by your trained XGBoost model"
+)
 
 
 # ============================================================
 # SIDEBAR
 # ============================================================
 
-st.sidebar.markdown("## 📊 Churn Predictor")
-
-st.sidebar.markdown(
-    """
-    <div style="
-        background:#f4f7fb;
-        padding:15px;
-        border-radius:12px;
-        margin-bottom:20px;
-    ">
-        <b>Customer Churn Analysis</b><br>
-        <span style="color:#64748b;font-size:13px;">
-        Enter customer information and generate a churn prediction.
-        </span>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.sidebar.markdown("### 📌 Model")
-
-st.sidebar.info(
-    "XGBoost Classification Model"
-)
-
-st.sidebar.markdown("### 📋 Input Information")
+st.sidebar.title("📊 Customer Churn")
 
 st.sidebar.write(
-    "Customer, service, contract and billing details are used for prediction."
+    "Enter customer information and generate a churn prediction."
 )
+
+st.sidebar.markdown("---")
+
+st.sidebar.subheader("🤖 Model")
+
+st.sidebar.write("Algorithm: XGBoost")
+
+st.sidebar.write("Task: Classification")
 
 st.sidebar.markdown("---")
 
@@ -315,11 +212,11 @@ st.sidebar.caption(
 
 
 # ============================================================
-# CUSTOMER DETAILS
+# CUSTOMER INFORMATION
 # ============================================================
 
 st.markdown(
-    '<div class="section-title">👤 Customer Information</div>',
+    '<div class="section">👤 Customer Information</div>',
     unsafe_allow_html=True
 )
 
@@ -327,17 +224,17 @@ col1, col2 = st.columns(2)
 
 
 # ============================================================
-# CUSTOMER DETAILS CARD
+# CUSTOMER DETAILS
 # ============================================================
 
 with col1:
 
     st.markdown(
-        '<div class="custom-card">',
+        '<div class="card">',
         unsafe_allow_html=True
     )
 
-    st.markdown("### 👤 Customer Details")
+    st.subheader("👤 Customer Details")
 
     gender = st.selectbox(
         "Gender",
@@ -383,17 +280,17 @@ with col1:
 
 
 # ============================================================
-# INTERNET & SERVICES
+# INTERNET AND SERVICES
 # ============================================================
 
 with col2:
 
     st.markdown(
-        '<div class="custom-card">',
+        '<div class="card">',
         unsafe_allow_html=True
     )
 
-    st.markdown("### 🌐 Internet & Services")
+    st.subheader("🌐 Internet & Services")
 
     internet = st.selectbox(
         "Internet Service",
@@ -437,16 +334,16 @@ with col2:
 
 
 # ============================================================
-# CONTRACT & BILLING
+# BILLING
 # ============================================================
 
 st.markdown(
-    '<div class="section-title">💳 Contract & Billing</div>',
+    '<div class="section">💳 Contract & Billing</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div class="custom-card">',
+    '<div class="card">',
     unsafe_allow_html=True
 )
 
@@ -506,7 +403,7 @@ st.markdown(
 # ============================================================
 
 st.markdown(
-    '<div class="section-title">🔮 Generate Prediction</div>',
+    '<div class="section">🔮 Generate Prediction</div>',
     unsafe_allow_html=True
 )
 
@@ -522,10 +419,7 @@ predict_button = st.button(
 
 if predict_button:
 
-    # --------------------------------------------------------
     # Create customer record
-    # --------------------------------------------------------
-
     customer = pd.DataFrame({
 
         "gender": [gender],
@@ -565,42 +459,32 @@ if predict_button:
         "MonthlyCharges": [monthly],
 
         "TotalCharges": [total]
-
     })
 
 
-    # --------------------------------------------------------
     # Convert categorical variables
-    # --------------------------------------------------------
-
     customer_encoded = pd.get_dummies(
         customer,
         drop_first=True
     )
 
 
-    # --------------------------------------------------------
     # Match EXACTLY with training features
-    # --------------------------------------------------------
-
     customer_encoded = customer_encoded.reindex(
         columns=model_features,
         fill_value=0
     )
 
 
-    # --------------------------------------------------------
     # Convert to numeric
-    # --------------------------------------------------------
-
     customer_encoded = customer_encoded.astype(float)
 
 
     try:
 
-        # ----------------------------------------------------
-        # YOUR ORIGINAL MODEL PREDICTION
-        # ----------------------------------------------------
+        # ====================================================
+        # ORIGINAL XGBOOST PREDICTION
+        # ====================================================
 
         prediction = model.predict(
             customer_encoded
@@ -610,119 +494,99 @@ if predict_button:
             customer_encoded
         )[0][1]
 
-
         probability_percent = probability * 100
 
 
         # ====================================================
-        # PREDICTION RESULT
+        # RESULT
         # ====================================================
 
         st.markdown("---")
 
         st.markdown(
-            '<div class="section-title">📌 Prediction Result</div>',
+            '<div class="section">📌 Prediction Result</div>',
             unsafe_allow_html=True
         )
 
 
-        # ====================================================
-        # HIGH CHURN
-        # ====================================================
-
         if prediction == 1:
 
             st.markdown(
-                f"""
-                <div class="risk-high">
+                '<div class="result-card">',
+                unsafe_allow_html=True
+            )
 
-                    <div class="risk-title">
-                        ⚠️ HIGH CHURN RISK
-                    </div>
+            st.markdown(
+                '<div class="result-title">⚠️ HIGH CHURN RISK</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="risk-probability">
-                        Customer is likely to CHURN
-                    </div>
+            st.markdown(
+                '<div class="result-text">Customer is likely to CHURN</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div style="
-                        margin-top:15px;
-                        color:#475569;
-                        font-size:16px;
-                    ">
-                        Churn Probability
-                    </div>
+            st.markdown(
+                f'<div class="probability" style="color:#be123c;">'
+                f'{probability_percent:.2f}%'
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div style="
-                        font-size:38px;
-                        font-weight:800;
-                        color:#be123c;
-                        margin-top:5px;
-                    ">
-                        {probability_percent:.2f}%
-                    </div>
+            st.caption("Churn Probability")
 
-                </div>
-                """,
+            st.markdown(
+                '</div>',
                 unsafe_allow_html=True
             )
 
             st.warning(
-                "⚠️ This customer may need retention offers, "
-                "additional support, or engagement strategies."
+                "This customer may need retention offers or additional support."
             )
 
-
-        # ====================================================
-        # LOW CHURN
-        # ====================================================
 
         else:
 
             st.markdown(
-                f"""
-                <div class="risk-low">
+                '<div class="result-card">',
+                unsafe_allow_html=True
+            )
 
-                    <div class="risk-title">
-                        ✅ LOW CHURN RISK
-                    </div>
+            st.markdown(
+                '<div class="result-title">✅ LOW CHURN RISK</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="risk-probability">
-                        Customer is likely to STAY
-                    </div>
+            st.markdown(
+                '<div class="result-text">Customer is likely to STAY</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div style="
-                        margin-top:15px;
-                        color:#475569;
-                        font-size:16px;
-                    ">
-                        Churn Probability
-                    </div>
+            st.markdown(
+                f'<div class="probability" style="color:#15803d;">'
+                f'{probability_percent:.2f}%'
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div style="
-                        font-size:38px;
-                        font-weight:800;
-                        color:#15803d;
-                        margin-top:5px;
-                    ">
-                        {probability_percent:.2f}%
-                    </div>
+            st.caption("Churn Probability")
 
-                </div>
-                """,
+            st.markdown(
+                '</div>',
                 unsafe_allow_html=True
             )
 
             st.success(
-                "✅ The customer is predicted to continue the service."
+                "The customer is predicted to continue the service."
             )
 
 
         # ====================================================
-        # SUMMARY METRICS
+        # SUMMARY
         # ====================================================
 
         st.markdown(
-            '<div class="section-title">📈 Prediction Summary</div>',
+            '<div class="section">📈 Prediction Summary</div>',
             unsafe_allow_html=True
         )
 
@@ -732,21 +596,29 @@ if predict_button:
         with m1:
 
             st.markdown(
-                f"""
-                <div class="info-card">
+                '<div class="small-card">',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-icon">🎯</div>
+            st.markdown(
+                '<div class="small-icon">🎯</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-title">
-                        Prediction
-                    </div>
+            st.markdown(
+                '<div class="small-title">Prediction</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-value">
-                        {"Churn" if prediction == 1 else "Stay"}
-                    </div>
+            st.markdown(
+                f'<div class="small-value">'
+                f'{"Churn" if prediction == 1 else "Stay"}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
-                </div>
-                """,
+            st.markdown(
+                '</div>',
                 unsafe_allow_html=True
             )
 
@@ -754,21 +626,29 @@ if predict_button:
         with m2:
 
             st.markdown(
-                f"""
-                <div class="info-card">
+                '<div class="small-card">',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-icon">📊</div>
+            st.markdown(
+                '<div class="small-icon">📊</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-title">
-                        Churn Probability
-                    </div>
+            st.markdown(
+                '<div class="small-title">Churn Probability</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-value">
-                        {probability_percent:.2f}%
-                    </div>
+            st.markdown(
+                f'<div class="small-value">'
+                f'{probability_percent:.2f}%'
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
-                </div>
-                """,
+            st.markdown(
+                '</div>',
                 unsafe_allow_html=True
             )
 
@@ -776,70 +656,75 @@ if predict_button:
         with m3:
 
             st.markdown(
-                """
-                <div class="info-card">
+                '<div class="small-card">',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-icon">⚡</div>
+            st.markdown(
+                '<div class="small-icon">⚡</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-title">
-                        Model
-                    </div>
+            st.markdown(
+                '<div class="small-title">Model</div>',
+                unsafe_allow_html=True
+            )
 
-                    <div class="info-value">
-                        XGBoost
-                    </div>
+            st.markdown(
+                '<div class="small-value">XGBoost</div>',
+                unsafe_allow_html=True
+            )
 
-                </div>
-                """,
+            st.markdown(
+                '</div>',
                 unsafe_allow_html=True
             )
 
 
         # ====================================================
-        # PROBABILITY VISUALIZATION
+        # CHARTS
         # ====================================================
 
         st.markdown(
-            '<div class="section-title">🎯 Churn Probability Analysis</div>',
+            '<div class="section">🎯 Churn Probability Analysis</div>',
             unsafe_allow_html=True
         )
 
-        chart_col1, chart_col2 = st.columns(2)
+        chart1, chart2 = st.columns(2)
 
 
         # ----------------------------------------------------
         # DONUT CHART
         # ----------------------------------------------------
 
-        with chart_col1:
+        with chart1:
 
             fig = go.Figure(
                 data=[
                     go.Pie(
-                        labels=["Churn Probability", "Remaining"],
+                        labels=[
+                            "Churn Probability",
+                            "Remaining Probability"
+                        ],
                         values=[
                             probability,
                             1 - probability
                         ],
-                        hole=0.65,
-                        textinfo="none"
+                        hole=0.60,
+                        textinfo="label+percent"
                     )
                 ]
             )
 
             fig.update_layout(
+                title="Churn Probability",
                 height=350,
                 margin=dict(
                     l=20,
                     r=20,
-                    t=40,
+                    t=60,
                     b=20
-                ),
-                showlegend=True,
-                title={
-                    "text": "Churn Probability",
-                    "x": 0.5
-                }
+                )
             )
 
             st.plotly_chart(
@@ -852,13 +737,13 @@ if predict_button:
         # BAR CHART
         # ----------------------------------------------------
 
-        with chart_col2:
+        with chart2:
 
             fig2 = go.Figure()
 
             fig2.add_trace(
                 go.Bar(
-                    x=["Churn Probability"],
+                    x=["Churn"],
                     y=[probability_percent],
                     text=[f"{probability_percent:.2f}%"],
                     textposition="auto"
@@ -866,13 +751,10 @@ if predict_button:
             )
 
             fig2.update_layout(
-                title={
-                    "text": "Prediction Confidence",
-                    "x": 0.5
-                },
+                title="Churn Probability (%)",
                 yaxis=dict(
-                    title="Probability (%)",
-                    range=[0, 100]
+                    range=[0, 100],
+                    title="Probability"
                 ),
                 height=350,
                 margin=dict(
@@ -890,17 +772,18 @@ if predict_button:
 
 
         # ====================================================
-        # PROGRESS INDICATOR
+        # RISK LEVEL
         # ====================================================
 
         st.markdown(
-            '<div class="section-title">📍 Risk Level</div>',
+            '<div class="section">📍 Risk Level</div>',
             unsafe_allow_html=True
         )
 
         st.progress(
             float(probability)
         )
+
 
         if probability >= 0.70:
 
@@ -925,25 +808,25 @@ if predict_button:
 
 
         # ====================================================
-        # CUSTOMER INPUT SUMMARY
+        # CUSTOMER SUMMARY
         # ====================================================
 
         st.markdown(
-            '<div class="section-title">👤 Customer Input Summary</div>',
+            '<div class="section">👤 Customer Input Summary</div>',
             unsafe_allow_html=True
         )
 
-        summary_col1, summary_col2 = st.columns(2)
+        summary1, summary2 = st.columns(2)
 
 
-        with summary_col1:
+        with summary1:
 
             st.markdown(
-                '<div class="custom-card">',
+                '<div class="card">',
                 unsafe_allow_html=True
             )
 
-            st.markdown("### Customer")
+            st.subheader("Customer")
 
             st.write(f"**Gender:** {gender}")
             st.write(f"**Senior Citizen:** {senior}")
@@ -958,14 +841,14 @@ if predict_button:
             )
 
 
-        with summary_col2:
+        with summary2:
 
             st.markdown(
-                '<div class="custom-card">',
+                '<div class="card">',
                 unsafe_allow_html=True
             )
 
-            st.markdown("### Billing")
+            st.subheader("Billing")
 
             st.write(f"**Contract:** {contract}")
             st.write(f"**Payment Method:** {payment}")
@@ -981,9 +864,7 @@ if predict_button:
 
     except Exception as e:
 
-        st.error(
-            "❌ Prediction error occurred."
-        )
+        st.error("❌ Prediction error occurred.")
 
         st.code(str(e))
 
@@ -995,7 +876,7 @@ if predict_button:
 st.markdown("---")
 
 st.markdown(
-    '<div class="section-title">ℹ️ About This Model</div>',
+    '<div class="section">ℹ️ About This Model</div>',
     unsafe_allow_html=True
 )
 
@@ -1005,21 +886,27 @@ info1, info2, info3, info4 = st.columns(4)
 with info1:
 
     st.markdown(
-        """
-        <div class="info-card">
+        '<div class="small-card">',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-icon">🤖</div>
+    st.markdown(
+        '<div class="small-icon">🤖</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-title">
-                Algorithm
-            </div>
+    st.markdown(
+        '<div class="small-title">Algorithm</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-value">
-                XGBoost
-            </div>
+    st.markdown(
+        '<div class="small-value">XGBoost</div>',
+        unsafe_allow_html=True
+    )
 
-        </div>
-        """,
+    st.markdown(
+        '</div>',
         unsafe_allow_html=True
     )
 
@@ -1027,21 +914,27 @@ with info1:
 with info2:
 
     st.markdown(
-        f"""
-        <div class="info-card">
+        '<div class="small-card">',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-icon">📋</div>
+    st.markdown(
+        '<div class="small-icon">📋</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-title">
-                Model Features
-            </div>
+    st.markdown(
+        '<div class="small-title">Model Features</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-value">
-                {len(model_features)}
-            </div>
+    st.markdown(
+        f'<div class="small-value">{len(model_features)}</div>',
+        unsafe_allow_html=True
+    )
 
-        </div>
-        """,
+    st.markdown(
+        '</div>',
         unsafe_allow_html=True
     )
 
@@ -1049,21 +942,27 @@ with info2:
 with info3:
 
     st.markdown(
-        """
-        <div class="info-card">
+        '<div class="small-card">',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-icon">🎯</div>
+    st.markdown(
+        '<div class="small-icon">🎯</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-title">
-                Task
-            </div>
+    st.markdown(
+        '<div class="small-title">Task</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-value">
-                Classification
-            </div>
+    st.markdown(
+        '<div class="small-value">Classification</div>',
+        unsafe_allow_html=True
+    )
 
-        </div>
-        """,
+    st.markdown(
+        '</div>',
         unsafe_allow_html=True
     )
 
@@ -1071,21 +970,27 @@ with info3:
 with info4:
 
     st.markdown(
-        """
-        <div class="info-card">
+        '<div class="small-card">',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-icon">📊</div>
+    st.markdown(
+        '<div class="small-icon">📊</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-title">
-                Output
-            </div>
+    st.markdown(
+        '<div class="small-title">Output</div>',
+        unsafe_allow_html=True
+    )
 
-            <div class="info-value">
-                Churn / Stay
-            </div>
+    st.markdown(
+        '<div class="small-value">Churn / Stay</div>',
+        unsafe_allow_html=True
+    )
 
-        </div>
-        """,
+    st.markdown(
+        '</div>',
         unsafe_allow_html=True
     )
 
@@ -1097,13 +1002,8 @@ with info4:
 st.markdown(
     """
     <div class="footer">
-
         <b>Customer Churn Prediction System</b><br>
-
-        Machine Learning Project using XGBoost<br>
-
-        Customer Churn Analysis & Prediction
-
+        Machine Learning Project using XGBoost
     </div>
     """,
     unsafe_allow_html=True
