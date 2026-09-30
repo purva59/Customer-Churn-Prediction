@@ -4,57 +4,55 @@ import plotly.graph_objects as go
 from xgboost import XGBClassifier
 
 
-# ============================================================
-# PAGE
-# ============================================================
+# ==========================================================
+# PAGE CONFIG
+# ==========================================================
 
 st.set_page_config(
-    page_title="Churn Intelligence",
-    page_icon="◈",
+    page_title="ChurnAI | Customer Churn Prediction",
+    page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 
-# ============================================================
-# PROFESSIONAL THEME
-# ============================================================
+# ==========================================================
+# PROFESSIONAL LIGHT THEME
+# ==========================================================
 
 st.markdown("""
 <style>
 
 .stApp {
     background:
-        linear-gradient(135deg, #f8fbff 0%, #f2f6fc 50%, #f8f7ff 100%);
+        radial-gradient(circle at 10% 5%, #eaf3ff 0%, transparent 25%),
+        radial-gradient(circle at 90% 5%, #f0ecff 0%, transparent 25%),
+        #f7f9fc;
 }
 
-/* Main width */
 .block-container {
     max-width: 1450px;
-    padding-top: 1.8rem;
+    padding-top: 2rem;
     padding-bottom: 3rem;
 }
 
-
-/* ---------------- SIDEBAR ---------------- */
+/* Sidebar */
 
 section[data-testid="stSidebar"] {
     background: #ffffff;
-    border-right: 1px solid #e7edf5;
+    border-right: 1px solid #e6ebf2;
 }
 
-section[data-testid="stSidebar"] * {
-    color: #344a63;
+section[data-testid="stSidebar"] p {
+    color: #63748a;
 }
 
-
-/* ---------------- HEADINGS ---------------- */
+/* Headings */
 
 h1 {
     color: #102a43 !important;
-    font-size: 42px !important;
     font-weight: 800 !important;
-    letter-spacing: -1.5px;
+    letter-spacing: -1px;
 }
 
 h2 {
@@ -63,144 +61,85 @@ h2 {
 }
 
 h3 {
-    color: #234e70 !important;
+    color: #244e70 !important;
     font-weight: 700 !important;
 }
 
-
-/* ---------------- TEXT ---------------- */
+/* Text */
 
 p {
     color: #62748a;
 }
 
-
-/* ---------------- INPUT LABEL ---------------- */
-
-label {
-    color: #334e68 !important;
-    font-weight: 600 !important;
-}
-
-
-/* ---------------- SELECTBOX ---------------- */
+/* Inputs */
 
 div[data-baseweb="select"] > div {
-    background: #ffffff;
-    border: 1px solid #d8e2ee;
+    background: white;
+    border: 1px solid #d9e2ec;
     border-radius: 10px;
 }
 
-
-/* ---------------- NUMBER INPUT ---------------- */
-
-div[data-testid="stNumberInput"] div[data-baseweb="input"] {
-    background: #ffffff;
+div[data-baseweb="input"] > div {
+    background: white;
+    border: 1px solid #d9e2ec;
     border-radius: 10px;
 }
 
-
-/* ---------------- BUTTON ---------------- */
+/* Buttons */
 
 .stButton > button {
-
-    background: linear-gradient(
-        100deg,
-        #1769e0,
-        #6048d8
-    );
-
+    background: linear-gradient(100deg, #246bce, #6652d9);
     color: white;
-
     border: none;
     border-radius: 12px;
-
-    min-height: 55px;
-
+    min-height: 56px;
     font-size: 16px;
     font-weight: 800;
-
-    box-shadow:
-        0 10px 25px rgba(45, 87, 180, 0.22);
-
-    transition: 0.2s;
+    box-shadow: 0 10px 25px rgba(45, 91, 170, 0.20);
 }
 
 .stButton > button:hover {
     transform: translateY(-2px);
-
-    box-shadow:
-        0 15px 30px rgba(45, 87, 180, 0.30);
+    box-shadow: 0 15px 32px rgba(45, 91, 170, 0.30);
 }
 
-
-/* ---------------- METRIC CARDS ---------------- */
+/* Metric cards */
 
 div[data-testid="stMetric"] {
-
-    background: rgba(255,255,255,0.95);
-
-    border: 1px solid #e2eaf3;
-
+    background: white;
+    border: 1px solid #e4eaf1;
     border-radius: 16px;
-
     padding: 18px;
-
-    box-shadow:
-        0 6px 20px rgba(34, 68, 105, 0.06);
+    box-shadow: 0 6px 20px rgba(35, 65, 100, 0.06);
 }
 
+/* Expanders */
 
-/* ---------------- ALERTS ---------------- */
+div[data-testid="stExpander"] {
+    background: white;
+    border: 1px solid #e1e8f0;
+    border-radius: 15px;
+}
+
+/* Alerts */
 
 div[data-testid="stAlert"] {
     border-radius: 14px;
 }
 
-
-/* ---------------- EXPANDER ---------------- */
-
-div[data-testid="stExpander"] {
-    background: white;
-    border: 1px solid #e1e8f0;
-    border-radius: 14px;
-}
-
-
-/* ---------------- DIVIDER ---------------- */
+/* Divider */
 
 hr {
     border-color: #e2e8f0;
-}
-
-
-/* ---------------- DATAFRAME ---------------- */
-
-div[data-testid="stDataFrame"] {
-    border-radius: 12px;
-}
-
-
-/* ---------------- TABS ---------------- */
-
-button[data-baseweb="tab"] {
-    font-weight: 700;
-}
-
-
-/* ---------------- PROGRESS ---------------- */
-
-div[data-testid="stProgress"] {
-    border-radius: 10px;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 
-# ============================================================
-# LOAD YOUR EXISTING MODEL
-# ============================================================
+# ==========================================================
+# LOAD EXISTING XGBOOST MODEL
+# ==========================================================
 
 @st.cache_resource
 def load_model():
@@ -217,15 +156,15 @@ model = load_model()
 model_features = model.get_booster().feature_names
 
 
-# ============================================================
+# ==========================================================
 # SIDEBAR
-# ============================================================
+# ==========================================================
 
 with st.sidebar:
 
-    st.markdown("## ◈ ChurnIQ")
+    st.markdown("## 🤖 ChurnAI")
 
-    st.caption("Customer Intelligence System")
+    st.caption("Customer Intelligence Platform")
 
     st.divider()
 
@@ -234,145 +173,139 @@ with st.sidebar:
     st.write("**Algorithm**")
     st.write("XGBoost Classifier")
 
-    st.write("**Problem**")
+    st.write("**Task**")
     st.write("Binary Classification")
 
-    st.write("**Prediction**")
+    st.write("**Target**")
     st.write("Customer Churn")
 
     st.divider()
 
-    st.markdown("### ANALYTICS")
+    st.markdown("### ANALYSIS")
 
-    st.write("01  Customer Profile")
-    st.write("02  Service Usage")
-    st.write("03  Billing Details")
-    st.write("04  Churn Prediction")
-    st.write("05  Risk Analysis")
+    st.write("👤 Customer Profile")
+    st.write("🌐 Service Information")
+    st.write("💳 Billing Information")
+    st.write("🎯 Churn Prediction")
+    st.write("📊 Risk Analysis")
 
     st.divider()
 
-    st.success("● Model Ready")
+    st.success("Model Ready")
 
     st.caption(
-        "AI-powered customer retention analysis"
+        "AI-powered customer churn analysis"
     )
 
 
-# ============================================================
+# ==========================================================
 # HERO SECTION
-# ============================================================
+# ==========================================================
 
-hero_left, hero_right = st.columns(
-    [2.8, 1]
-)
+hero1, hero2 = st.columns([3.5, 1])
 
-with hero_left:
+with hero1:
 
     st.caption(
         "ARTIFICIAL INTELLIGENCE  •  CUSTOMER ANALYTICS"
     )
 
     st.title(
-        "Customer Churn Intelligence"
+        "Customer Churn Prediction"
     )
 
     st.write(
-        "Analyze customer behavior and estimate the likelihood "
-        "of service churn using your trained XGBoost classification model."
+        "Analyze customer information and estimate the "
+        "probability of service churn using a trained "
+        "XGBoost machine learning model."
     )
 
-
-with hero_right:
+with hero2:
 
     st.metric(
-        "MODEL",
+        "AI MODEL",
         "XGBoost",
-        "Classification"
+        "Ready"
     )
 
 
 st.divider()
 
 
-# ============================================================
-# TOP STATUS CARDS
-# ============================================================
+# ==========================================================
+# DASHBOARD OVERVIEW
+# ==========================================================
 
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
     st.metric(
-        "AI Engine",
+        "Model",
         "XGBoost"
     )
 
 with c2:
     st.metric(
-        "Analysis",
-        "Churn Risk"
+        "Problem",
+        "Classification"
     )
 
 with c3:
     st.metric(
         "Output",
-        "Probability"
+        "Churn Risk"
     )
 
 with c4:
     st.metric(
-        "Mode",
-        "Real-time"
+        "Prediction",
+        "Real-Time"
     )
 
 
 st.write("")
 
 
-# ============================================================
-# CUSTOMER INPUT AREA
-# ============================================================
+# ==========================================================
+# CUSTOMER PROFILE
+# ==========================================================
 
-st.header("Customer Analysis")
+st.header("Customer Information")
 
 st.caption(
-    "Provide the customer's information to generate an AI-based churn assessment."
+    "Enter the customer's details below."
 )
 
-
-# ============================================================
-# PROFILE
-# ============================================================
 
 with st.expander(
     "👤  CUSTOMER PROFILE",
     expanded=True
 ):
 
-    p1, p2, p3, p4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns(4)
 
-    with p1:
+    with col1:
 
         gender = st.selectbox(
             "Gender",
             ["Male", "Female"]
         )
 
-    with p2:
+    with col2:
 
         senior_citizen = st.selectbox(
             "Senior Citizen",
             ["No", "Yes"]
         )
 
-    with p3:
+    with col3:
 
         partner = st.selectbox(
             "Partner",
             ["No", "Yes"]
         )
 
-    with p4:
+    with col4:
 
         dependents = st.selectbox(
             "Dependents",
@@ -380,27 +313,28 @@ with st.expander(
         )
 
 
-# ============================================================
+# ==========================================================
 # CUSTOMER VALUE
-# ============================================================
+# ==========================================================
 
 with st.expander(
-    "📊  CUSTOMER VALUE",
+    "📈  CUSTOMER VALUE",
     expanded=True
 ):
 
-    v1, v2, v3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with v1:
+    with col1:
 
         tenure = st.number_input(
             "Tenure (Months)",
             min_value=0,
             max_value=100,
-            value=12
+            value=12,
+            step=1
         )
 
-    with v2:
+    with col2:
 
         monthly_charges = st.number_input(
             "Monthly Charges ($)",
@@ -410,7 +344,7 @@ with st.expander(
             step=1.0
         )
 
-    with v3:
+    with col3:
 
         total_charges = st.number_input(
             "Total Charges ($)",
@@ -421,119 +355,85 @@ with st.expander(
         )
 
 
-# ============================================================
-# SERVICES
-# ============================================================
+# ==========================================================
+# SERVICE INFORMATION
+# ==========================================================
 
 with st.expander(
-    "🌐  SERVICE USAGE",
+    "🌐  SERVICE INFORMATION",
     expanded=True
 ):
 
-    s1, s2, s3, s4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns(4)
 
-    with s1:
+    with col1:
 
         phone_service = st.selectbox(
             "Phone Service",
             ["No", "Yes"]
         )
 
-    with s2:
+    with col2:
 
         multiple_lines = st.selectbox(
             "Multiple Lines",
-            [
-                "No",
-                "Yes",
-                "No phone service"
-            ]
+            ["No", "Yes", "No phone service"]
         )
 
-    with s3:
+    with col3:
 
         internet_service = st.selectbox(
             "Internet Service",
-            [
-                "DSL",
-                "Fiber optic",
-                "No"
-            ]
+            ["DSL", "Fiber optic", "No"]
         )
 
-    with s4:
+    with col4:
 
         online_security = st.selectbox(
             "Online Security",
-            [
-                "No",
-                "Yes",
-                "No internet service"
-            ]
+            ["No", "Yes", "No internet service"]
         )
 
+    col1, col2, col3, col4 = st.columns(4)
 
-    s1, s2, s3, s4 = st.columns(4)
-
-    with s1:
+    with col1:
 
         online_backup = st.selectbox(
             "Online Backup",
-            [
-                "No",
-                "Yes",
-                "No internet service"
-            ]
+            ["No", "Yes", "No internet service"]
         )
 
-    with s2:
+    with col2:
 
         device_protection = st.selectbox(
             "Device Protection",
-            [
-                "No",
-                "Yes",
-                "No internet service"
-            ]
+            ["No", "Yes", "No internet service"]
         )
 
-    with s3:
+    with col3:
 
         tech_support = st.selectbox(
             "Tech Support",
-            [
-                "No",
-                "Yes",
-                "No internet service"
-            ]
+            ["No", "Yes", "No internet service"]
         )
 
-    with s4:
+    with col4:
 
         streaming_tv = st.selectbox(
             "Streaming TV",
-            [
-                "No",
-                "Yes",
-                "No internet service"
-            ]
+            ["No", "Yes", "No internet service"]
         )
 
+    col1, col2 = st.columns(2)
 
-    s1, s2 = st.columns(2)
-
-    with s1:
+    with col1:
 
         streaming_movies = st.selectbox(
             "Streaming Movies",
-            [
-                "No",
-                "Yes",
-                "No internet service"
-            ]
+            ["No", "Yes", "No internet service"]
         )
 
-    with s2:
+    with col2:
 
         contract = st.selectbox(
             "Contract",
@@ -545,25 +445,25 @@ with st.expander(
         )
 
 
-# ============================================================
+# ==========================================================
 # BILLING
-# ============================================================
+# ==========================================================
 
 with st.expander(
     "💳  BILLING & PAYMENT",
     expanded=True
 ):
 
-    b1, b2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-    with b1:
+    with col1:
 
         paperless_billing = st.selectbox(
             "Paperless Billing",
             ["No", "Yes"]
         )
 
-    with b2:
+    with col2:
 
         payment_method = st.selectbox(
             "Payment Method",
@@ -576,33 +476,31 @@ with st.expander(
         )
 
 
-# ============================================================
+# ==========================================================
 # ANALYZE BUTTON
-# ============================================================
+# ==========================================================
 
 st.write("")
 
-button_left, button_center, button_right = st.columns(
-    [1, 2, 1]
-)
+left, center, right = st.columns([1, 2, 1])
 
-with button_center:
+with center:
 
     analyze = st.button(
-        "✦  RUN CHURN ANALYSIS",
+        "🔮  ANALYZE CUSTOMER CHURN",
         use_container_width=True
     )
 
 
-# ============================================================
+# ==========================================================
 # PREDICTION
-# ============================================================
+# ==========================================================
 
 if analyze:
 
-    # --------------------------------------------------------
+    # ------------------------------------------------------
     # CUSTOMER DATA
-    # --------------------------------------------------------
+    # ------------------------------------------------------
 
     customer = pd.DataFrame({
 
@@ -645,13 +543,12 @@ if analyze:
         "MonthlyCharges": [monthly_charges],
 
         "TotalCharges": [total_charges]
-
     })
 
 
-    # --------------------------------------------------------
-    # SAME ENCODING LOGIC
-    # --------------------------------------------------------
+    # ------------------------------------------------------
+    # SAME ENCODING
+    # ------------------------------------------------------
 
     customer_encoded = pd.get_dummies(
         customer,
@@ -666,9 +563,9 @@ if analyze:
     customer_encoded = customer_encoded.astype(float)
 
 
-    # --------------------------------------------------------
-    # SAME MODEL
-    # --------------------------------------------------------
+    # ------------------------------------------------------
+    # SAME MODEL PREDICTION
+    # ------------------------------------------------------
 
     prediction = model.predict(
         customer_encoded
@@ -681,9 +578,9 @@ if analyze:
     stay_probability = 1 - probability
 
 
-    # ========================================================
-    # RESULT HEADER
-    # ========================================================
+    # ======================================================
+    # RESULT
+    # ======================================================
 
     st.divider()
 
@@ -692,29 +589,25 @@ if analyze:
     )
 
     st.header(
-        "Prediction Overview"
+        "Prediction Result"
     )
 
-
-    # ========================================================
-    # BIG RESULT
-    # ========================================================
 
     result_col, gauge_col = st.columns(
-        [1.15, 1]
+        [1.2, 1]
     )
 
 
-    # --------------------------------------------------------
+    # ------------------------------------------------------
     # RESULT CARD
-    # --------------------------------------------------------
+    # ------------------------------------------------------
 
     with result_col:
 
         if prediction == 1:
 
             st.error(
-                "HIGHER CHURN RISK"
+                "⚠️ HIGHER CHURN RISK"
             )
 
             st.subheader(
@@ -724,7 +617,7 @@ if analyze:
         else:
 
             st.success(
-                "LOWER CHURN RISK"
+                "✓ LOWER CHURN RISK"
             )
 
             st.subheader(
@@ -732,22 +625,22 @@ if analyze:
             )
 
         st.write(
-            "The prediction is generated directly from "
-            "your trained XGBoost classification model."
+            "The result is generated by the trained "
+            "XGBoost classification model."
         )
 
         st.write("")
 
-        r1, r2 = st.columns(2)
+        a, b = st.columns(2)
 
-        with r1:
+        with a:
 
             st.metric(
                 "Churn Probability",
                 f"{probability * 100:.1f}%"
             )
 
-        with r2:
+        with b:
 
             st.metric(
                 "Stay Probability",
@@ -755,13 +648,13 @@ if analyze:
             )
 
 
-    # --------------------------------------------------------
+    # ------------------------------------------------------
     # GAUGE
-    # --------------------------------------------------------
+    # ------------------------------------------------------
 
     with gauge_col:
 
-        fig = go.Figure(
+        gauge = go.Figure(
             go.Indicator(
                 mode="gauge+number",
 
@@ -770,91 +663,91 @@ if analyze:
                 number={
                     "suffix": "%",
                     "font": {
-                        "size": 38
+                        "size": 38,
+                        "color": "#183b56"
                     }
                 },
 
                 title={
                     "text": "CHURN RISK SCORE",
                     "font": {
-                        "size": 16
+                        "size": 15,
+                        "color": "#52677d"
                     }
                 },
 
                 gauge={
+
                     "axis": {
                         "range": [0, 100]
                     },
 
                     "bar": {
-                        "color": "#5b55d9"
+                        "color": "#6257d9"
                     },
 
-                    "bgcolor": "#edf2f7",
+                    "bgcolor": "#eef2f7",
 
                     "borderwidth": 0,
 
                     "steps": [
+
                         {
                             "range": [0, 30],
-                            "color": "#dff4e8"
+                            "color": "#dff3e7"
                         },
 
                         {
                             "range": [30, 60],
-                            "color": "#fff2cc"
+                            "color": "#fff1c7"
                         },
 
                         {
                             "range": [60, 100],
-                            "color": "#ffe2e2"
+                            "color": "#ffe1e1"
                         }
                     ]
                 }
             )
         )
 
-        fig.update_layout(
+        gauge.update_layout(
             height=300,
             margin=dict(
-                l=25,
-                r=25,
-                t=55,
-                b=15
+                l=20,
+                r=20,
+                t=50,
+                b=10
             ),
-
             paper_bgcolor="rgba(0,0,0,0)"
         )
 
         st.plotly_chart(
-            fig,
+            gauge,
             use_container_width=True
         )
 
 
-    # ========================================================
+    # ======================================================
     # PROBABILITY ANALYSIS
-    # ========================================================
+    # ======================================================
 
     st.subheader(
         "Probability Analysis"
     )
 
-    chart_col, detail_col = st.columns(
+    chart_col, insight_col = st.columns(
         [1.5, 1]
     )
 
 
-    # --------------------------------------------------------
-    # BAR CHART
-    # --------------------------------------------------------
-
     with chart_col:
 
-        fig2 = go.Figure()
+        chart = go.Figure()
 
-        fig2.add_trace(
+        chart.add_trace(
             go.Bar(
+
                 x=[
                     "Stay",
                     "Churn"
@@ -875,27 +768,19 @@ if analyze:
                 marker=dict(
                     color=[
                         "#3b82f6",
-                        "#7c5ce0"
-                    ],
-
-                    line=dict(
-                        width=0
-                    )
+                        "#7659d9"
+                    ]
                 )
             )
         )
 
-        fig2.update_layout(
+        chart.update_layout(
 
-            height=370,
+            height=360,
 
             yaxis=dict(
                 title="Probability (%)",
                 range=[0, 110]
-            ),
-
-            xaxis=dict(
-                title=""
             ),
 
             template="plotly_white",
@@ -905,55 +790,49 @@ if analyze:
             plot_bgcolor="rgba(0,0,0,0)",
 
             margin=dict(
-                l=45,
-                r=25,
-                t=25,
-                b=45
+                l=40,
+                r=20,
+                t=30,
+                b=40
             )
         )
 
         st.plotly_chart(
-            fig2,
+            chart,
             use_container_width=True
         )
 
 
-    # --------------------------------------------------------
-    # AI SUMMARY
-    # --------------------------------------------------------
-
-    with detail_col:
+    with insight_col:
 
         st.subheader(
-            "AI Summary"
+            "Customer Risk Summary"
         )
 
         st.info(
-            "The XGBoost model has evaluated the customer's "
-            "profile, service usage, contract and billing "
-            "information."
+            "The model evaluates customer profile, "
+            "service usage, contract and billing information."
         )
 
         st.write("")
 
         st.write(
-            "**Prediction:** "
-            + (
-                "Higher churn risk"
-                if prediction == 1
-                else "Lower churn risk"
-            )
+            f"**Churn:** {probability * 100:.1f}%"
+        )
+
+        st.progress(
+            float(probability)
         )
 
         st.write(
-            f"**Churn probability:** "
-            f"{probability * 100:.2f}%"
+            f"**Stay:** {stay_probability * 100:.1f}%"
         )
 
-        st.write(
-            f"**Stay probability:** "
-            f"{stay_probability * 100:.2f}%"
+        st.progress(
+            float(stay_probability)
         )
+
+        st.write("")
 
         st.write(
             f"**Contract:** {contract}"
@@ -968,9 +847,9 @@ if analyze:
         )
 
 
-    # ========================================================
+    # ======================================================
     # CUSTOMER SNAPSHOT
-    # ========================================================
+    # ======================================================
 
     st.divider()
 
@@ -978,30 +857,30 @@ if analyze:
         "Customer Snapshot"
     )
 
-    snapshot1, snapshot2, snapshot3, snapshot4 = st.columns(4)
+    s1, s2, s3, s4 = st.columns(4)
 
-    with snapshot1:
+    with s1:
 
         st.metric(
             "Tenure",
-            f"{tenure} mo"
+            f"{tenure} months"
         )
 
-    with snapshot2:
+    with s2:
 
         st.metric(
             "Monthly Charges",
             f"${monthly_charges:.0f}"
         )
 
-    with snapshot3:
+    with s3:
 
         st.metric(
             "Contract",
             contract
         )
 
-    with snapshot4:
+    with s4:
 
         st.metric(
             "Internet",
@@ -1009,17 +888,17 @@ if analyze:
         )
 
 
-    # ========================================================
-    # DETAILS
-    # ========================================================
+    # ======================================================
+    # COMPLETE DETAILS
+    # ======================================================
 
     with st.expander(
-        "View Complete Customer Details"
+        "📋 View Complete Customer Information"
     ):
 
         details = pd.DataFrame({
 
-            "Customer Attribute": [
+            "Attribute": [
 
                 "Gender",
                 "Senior Citizen",
@@ -1043,7 +922,7 @@ if analyze:
 
             ],
 
-            "Selected Value": [
+            "Value": [
 
                 gender,
                 senior_citizen,
@@ -1076,13 +955,13 @@ if analyze:
         )
 
 
-# ============================================================
+# ==========================================================
 # FOOTER
-# ============================================================
+# ==========================================================
 
 st.divider()
 
 st.caption(
-    "◈ ChurnIQ  •  Customer Churn Analysis  •  "
+    "🤖 ChurnAI  •  Customer Churn Prediction  •  "
     "Powered by XGBoost"
 )
