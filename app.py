@@ -12,229 +12,130 @@ st.set_page_config(
     page_title="Customer Churn AI",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 
 # ============================================================
-# PROFESSIONAL LIGHT BACKGROUND
+# LIGHT PROFESSIONAL UI
 # ============================================================
 
 st.markdown("""
 <style>
 
-    /* ================================
-       MAIN BACKGROUND
-       ================================ */
+.stApp {
+    background:
+        radial-gradient(circle at 8% 8%,
+        rgba(99,102,241,0.16), transparent 25%),
+        radial-gradient(circle at 92% 12%,
+        rgba(14,165,233,0.14), transparent 28%),
+        radial-gradient(circle at 50% 95%,
+        rgba(168,85,247,0.10), transparent 30%),
+        linear-gradient(135deg,#f8fbff,#eef5ff,#faf8ff);
+}
 
-    .stApp {
-        background:
-            radial-gradient(
-                circle at 5% 10%,
-                rgba(99, 102, 241, 0.16),
-                transparent 28%
-            ),
-            radial-gradient(
-                circle at 95% 15%,
-                rgba(14, 165, 233, 0.14),
-                transparent 30%
-            ),
-            radial-gradient(
-                circle at 50% 100%,
-                rgba(139, 92, 246, 0.10),
-                transparent 35%
-            ),
-            linear-gradient(
-                135deg,
-                #f8fbff 0%,
-                #eef5ff 45%,
-                #f8f7ff 100%
-            );
-    }
+.main .block-container {
+    max-width: 1250px;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
 
+h1 {
+    color: #172554 !important;
+    font-size: 44px !important;
+    font-weight: 800 !important;
+}
 
-    /* ================================
-       PAGE WIDTH
-       ================================ */
+h2 {
+    color: #172554 !important;
+    font-weight: 800 !important;
+}
 
-    .main .block-container {
-        max-width: 1250px;
-        padding-top: 2rem;
-        padding-bottom: 4rem;
-    }
+h3 {
+    color: #1e3a8a !important;
+    font-weight: 750 !important;
+}
 
+p {
+    color: #475569;
+}
 
-    /* ================================
-       HEADER
-       ================================ */
+label {
+    color: #334155 !important;
+    font-weight: 600 !important;
+}
 
-    h1 {
-        color: #172554 !important;
-        font-size: 46px !important;
-        font-weight: 800 !important;
-        letter-spacing: -1.5px !important;
-        margin-bottom: 0 !important;
-    }
+div[data-baseweb="select"] > div {
+    background: white !important;
+    border: 1px solid #dbe3ef !important;
+    border-radius: 10px !important;
+    min-height: 43px;
+}
 
-    h2 {
-        color: #172554 !important;
-        font-weight: 800 !important;
-    }
+div[data-testid="stNumberInput"] input {
+    background: white !important;
+    border: 1px solid #dbe3ef !important;
+    border-radius: 10px !important;
+}
 
-    h3 {
-        color: #1e3a8a !important;
-        font-weight: 750 !important;
-    }
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(203,213,225,0.8);
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(30,64,175,0.07);
+}
 
-    p {
-        color: #475569;
-    }
+div.stButton > button {
+    min-height: 56px;
+    border: none;
+    border-radius: 13px;
+    background: linear-gradient(
+        100deg,#2563eb,#4f46e5,#7c3aed
+    );
+    color: white !important;
+    font-size: 17px;
+    font-weight: 800;
+    box-shadow: 0 10px 25px rgba(79,70,229,0.25);
+}
 
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(79,70,229,0.32);
+}
 
-    /* ================================
-       TOP HEADER AREA
-       ================================ */
+div[data-testid="stMetric"] {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 17px;
+    box-shadow: 0 5px 18px rgba(15,23,42,0.05);
+}
 
-    div[data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(255, 255, 255, 0.82);
-        border: 1px solid rgba(203, 213, 225, 0.75);
-        border-radius: 20px;
-        box-shadow:
-            0 10px 35px rgba(30, 64, 175, 0.08);
-    }
+div[data-testid="stMetricLabel"] {
+    color: #64748b !important;
+    font-weight: 600 !important;
+}
 
+div[data-testid="stMetricValue"] {
+    color: #172554 !important;
+    font-weight: 800 !important;
+}
 
-    /* ================================
-       INPUT LABELS
-       ================================ */
+div[data-testid="stAlert"] {
+    border-radius: 13px;
+}
 
-    label {
-        color: #334155 !important;
-        font-weight: 650 !important;
-    }
-
-
-    /* ================================
-       SELECT BOX
-       ================================ */
-
-    div[data-baseweb="select"] > div {
-        background: rgba(255,255,255,0.95) !important;
-        border: 1px solid #d7e0ed !important;
-        border-radius: 11px !important;
-        min-height: 44px;
-    }
-
-
-    /* ================================
-       NUMBER INPUT
-       ================================ */
-
-    div[data-testid="stNumberInput"] input {
-        background: rgba(255,255,255,0.95) !important;
-        border: 1px solid #d7e0ed !important;
-        border-radius: 11px !important;
-        color: #172554 !important;
-    }
-
-
-    /* ================================
-       BUTTON
-       ================================ */
-
-    div.stButton > button {
-        min-height: 58px;
-        border: none;
-        border-radius: 14px;
-
-        background:
-            linear-gradient(
-                100deg,
-                #2563eb,
-                #4f46e5,
-                #7c3aed
-            );
-
-        color: white !important;
-
-        font-size: 17px;
-        font-weight: 800;
-
-        box-shadow:
-            0 10px 25px rgba(79, 70, 229, 0.25);
-
-        transition: all 0.2s ease;
-    }
-
-    div.stButton > button:hover {
-        transform: translateY(-2px);
-
-        box-shadow:
-            0 14px 30px rgba(79, 70, 229, 0.32);
-    }
-
-
-    /* ================================
-       METRICS
-       ================================ */
-
-    div[data-testid="stMetric"] {
-        background: rgba(255,255,255,0.92);
-        border: 1px solid #e2e8f0;
-        border-radius: 15px;
-        padding: 18px;
-
-        box-shadow:
-            0 6px 20px rgba(15,23,42,0.06);
-    }
-
-    div[data-testid="stMetricLabel"] {
-        color: #64748b !important;
-        font-weight: 600 !important;
-    }
-
-    div[data-testid="stMetricValue"] {
-        color: #172554 !important;
-        font-weight: 800 !important;
-    }
-
-
-    /* ================================
-       ALERT BOXES
-       ================================ */
-
-    div[data-testid="stAlert"] {
-        border-radius: 14px;
-    }
-
-
-    /* ================================
-       DIVIDER
-       ================================ */
-
-    hr {
-        border: none;
-        border-top: 1px solid rgba(148,163,184,0.25);
-        margin: 28px 0;
-    }
-
-
-    /* ================================
-       EXPANDER
-       ================================ */
-
-    div[data-testid="stExpander"] {
-        background: rgba(255,255,255,0.82);
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-    }
+hr {
+    border: none;
+    border-top: 1px solid rgba(148,163,184,0.25);
+}
 
 </style>
 """, unsafe_allow_html=True)
 
 
 # ============================================================
-# LOAD YOUR EXISTING XGBOOST MODEL
+# LOAD MODEL
 # ============================================================
 
 @st.cache_resource
@@ -248,24 +149,16 @@ def load_model():
 
 
 try:
-
     model = load_model()
 
 except Exception as e:
 
     st.error("❌ Model could not be loaded.")
-
     st.code(str(e))
-
     st.stop()
 
 
-# ============================================================
-# GET FEATURES DIRECTLY FROM TRAINED MODEL
-# ============================================================
-
 model_features = model.get_booster().feature_names
-
 
 if model_features is None:
 
@@ -277,564 +170,694 @@ if model_features is None:
 
 
 # ============================================================
-# HERO SECTION
+# SIDEBAR
 # ============================================================
 
-with st.container(border=True):
+with st.sidebar:
 
-    st.caption("✦ ARTIFICIAL INTELLIGENCE  •  CUSTOMER ANALYTICS")
+    st.markdown("## 📊 Customer Churn AI")
 
-    st.title("Customer Churn AI")
+    st.caption("XGBoost Customer Risk Analysis")
 
-    st.write(
-        "Predict customer churn probability using your trained "
-        "XGBoost classification model."
+    st.divider()
+
+    page = st.radio(
+        "Navigation",
+        [
+            "🏠 Dashboard",
+            "🎯 Churn Prediction",
+            "🤖 Model Information"
+        ]
     )
+
+    st.divider()
+
+    st.info(
+        "Enter customer information and use the trained "
+        "XGBoost model to estimate churn probability."
+    )
+
+
+# ============================================================
+# DASHBOARD
+# ============================================================
+
+if page == "🏠 Dashboard":
+
+    with st.container(border=True):
+
+        st.caption(
+            "✦ ARTIFICIAL INTELLIGENCE  •  CUSTOMER ANALYTICS"
+        )
+
+        st.title("Customer Churn AI")
+
+        st.write(
+            "An intelligent customer analytics application "
+            "that estimates the probability of service churn "
+            "using an XGBoost classification model."
+        )
+
+        st.write("")
+
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+            st.metric("MODEL", "XGBoost")
+
+        with c2:
+            st.metric("TASK", "Classification")
+
+        with c3:
+            st.metric("ANALYSIS", "Customer Churn")
 
     st.write("")
 
+    st.subheader("✨ How the system works")
 
-    hero1, hero2, hero3 = st.columns(3)
+    a, b, c = st.columns(3)
 
-    with hero1:
-
-        st.metric(
-            "MODEL",
-            "XGBoost"
-        )
-
-    with hero2:
-
-        st.metric(
-            "TASK",
-            "Churn Prediction"
-        )
-
-    with hero3:
-
-        st.metric(
-            "ANALYSIS",
-            "Customer Risk"
-        )
-
-
-# ============================================================
-# CUSTOMER PROFILE
-# ============================================================
-
-st.write("")
-
-st.subheader("👤 Customer Profile")
-
-with st.container(border=True):
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-
-        gender = st.selectbox(
-            "Gender",
-            ["Female", "Male"]
-        )
-
-        senior = st.selectbox(
-            "Senior Citizen",
-            [0, 1]
-        )
-
-        partner = st.selectbox(
-            "Partner",
-            ["Yes", "No"]
-        )
-
-    with col2:
-
-        dependents = st.selectbox(
-            "Dependents",
-            ["Yes", "No"]
-        )
-
-        tenure = st.number_input(
-            "Tenure (Months)",
-            min_value=0,
-            max_value=100,
-            value=12
-        )
-
-        phone = st.selectbox(
-            "Phone Service",
-            ["Yes", "No"]
-        )
-
-    with col3:
-
-        multiple_lines = st.selectbox(
-            "Multiple Lines",
-            ["Yes", "No", "No phone service"]
-        )
-
-
-# ============================================================
-# INTERNET & SERVICES
-# ============================================================
-
-st.write("")
-
-st.subheader("🌐 Internet & Services")
-
-with st.container(border=True):
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-
-        internet = st.selectbox(
-            "Internet Service",
-            ["DSL", "Fiber optic", "No"]
-        )
-
-        security = st.selectbox(
-            "Online Security",
-            ["Yes", "No", "No internet service"]
-        )
-
-        backup = st.selectbox(
-            "Online Backup",
-            ["Yes", "No", "No internet service"]
-        )
-
-    with col2:
-
-        protection = st.selectbox(
-            "Device Protection",
-            ["Yes", "No", "No internet service"]
-        )
-
-        support = st.selectbox(
-            "Tech Support",
-            ["Yes", "No", "No internet service"]
-        )
-
-        streaming_tv = st.selectbox(
-            "Streaming TV",
-            ["Yes", "No", "No internet service"]
-        )
-
-    with col3:
-
-        streaming_movies = st.selectbox(
-            "Streaming Movies",
-            ["Yes", "No", "No internet service"]
-        )
-
-
-# ============================================================
-# CONTRACT & BILLING
-# ============================================================
-
-st.write("")
-
-st.subheader("💳 Contract & Billing")
-
-with st.container(border=True):
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-
-        contract = st.selectbox(
-            "Contract",
-            [
-                "Month-to-month",
-                "One year",
-                "Two year"
-            ]
-        )
-
-        paperless = st.selectbox(
-            "Paperless Billing",
-            ["Yes", "No"]
-        )
-
-    with col2:
-
-        payment = st.selectbox(
-            "Payment Method",
-            [
-                "Electronic check",
-                "Mailed check",
-                "Bank transfer (automatic)",
-                "Credit card (automatic)"
-            ]
-        )
-
-    with col3:
-
-        monthly = st.number_input(
-            "Monthly Charges ($)",
-            min_value=0.0,
-            max_value=200.0,
-            value=70.0,
-            step=1.0
-        )
-
-        total = st.number_input(
-            "Total Charges ($)",
-            min_value=0.0,
-            max_value=10000.0,
-            value=800.0,
-            step=10.0
-        )
-
-
-# ============================================================
-# ANALYZE BUTTON
-# ============================================================
-
-st.write("")
-st.write("")
-
-predict_button = st.button(
-    "🔮  ANALYZE CUSTOMER CHURN",
-    use_container_width=True
-)
-
-
-# ============================================================
-# PREDICTION
-# ============================================================
-
-if predict_button:
-
-    # --------------------------------------------------------
-    # ORIGINAL CUSTOMER DATA
-    # --------------------------------------------------------
-
-    customer = pd.DataFrame({
-
-        "gender": [gender],
-
-        "SeniorCitizen": [senior],
-
-        "Partner": [partner],
-
-        "Dependents": [dependents],
-
-        "tenure": [tenure],
-
-        "PhoneService": [phone],
-
-        "MultipleLines": [multiple_lines],
-
-        "InternetService": [internet],
-
-        "OnlineSecurity": [security],
-
-        "OnlineBackup": [backup],
-
-        "DeviceProtection": [protection],
-
-        "TechSupport": [support],
-
-        "StreamingTV": [streaming_tv],
-
-        "StreamingMovies": [streaming_movies],
-
-        "Contract": [contract],
-
-        "PaperlessBilling": [paperless],
-
-        "PaymentMethod": [payment],
-
-        "MonthlyCharges": [monthly],
-
-        "TotalCharges": [total]
-    })
-
-
-    # --------------------------------------------------------
-    # SAME ENCODING USED IN YOUR ORIGINAL APP
-    # --------------------------------------------------------
-
-    customer_encoded = pd.get_dummies(
-        customer,
-        drop_first=True
-    )
-
-
-    # --------------------------------------------------------
-    # MATCH EXACT TRAINING FEATURES
-    # --------------------------------------------------------
-
-    customer_encoded = customer_encoded.reindex(
-        columns=model_features,
-        fill_value=0
-    )
-
-
-    # --------------------------------------------------------
-    # NUMERIC CONVERSION
-    # --------------------------------------------------------
-
-    customer_encoded = customer_encoded.astype(float)
-
-
-    try:
-
-        # ----------------------------------------------------
-        # SAME MODEL PREDICTION
-        # ----------------------------------------------------
-
-        prediction = model.predict(
-            customer_encoded
-        )[0]
-
-
-        probability = model.predict_proba(
-            customer_encoded
-        )[0][1]
-
-
-        probability_percent = probability * 100
-
-
-        # ====================================================
-        # RESULT
-        # ====================================================
-
-        st.write("")
-        st.divider()
-
-        st.subheader("🎯 AI Prediction")
-
-
-        if prediction == 1:
-
-            st.error("⚠️ HIGH CHURN RISK")
-
-            result_text = "Customer is likely to CHURN"
-
-            explanation = (
-                "The XGBoost model has classified this customer "
-                "as a higher churn-risk case."
-            )
-
-        else:
-
-            st.success("✓ LOW CHURN RISK")
-
-            result_text = "Customer is likely to STAY"
-
-            explanation = (
-                "The XGBoost model has classified this customer "
-                "as a lower churn-risk case."
-            )
-
-
-        # ====================================================
-        # MAIN RESULT CARD
-        # ====================================================
+    with a:
 
         with st.container(border=True):
 
-            result_col1, result_col2 = st.columns(
-                [1.1, 1]
+            st.subheader("01")
+            st.write("Customer Data")
+            st.caption(
+                "Enter demographic, service and billing information."
+            )
+
+    with b:
+
+        with st.container(border=True):
+
+            st.subheader("02")
+            st.write("AI Analysis")
+            st.caption(
+                "The trained XGBoost model processes the customer data."
+            )
+
+    with c:
+
+        with st.container(border=True):
+
+            st.subheader("03")
+            st.write("Risk Prediction")
+            st.caption(
+                "The system displays the predicted churn class "
+                "and probability."
+            )
+
+    st.write("")
+
+    st.subheader("🚀 Start prediction")
+
+    st.write(
+        "Use the **Churn Prediction** section from the sidebar "
+        "to analyze a customer."
+    )
+
+
+# ============================================================
+# PREDICTION PAGE
+# ============================================================
+
+elif page == "🎯 Churn Prediction":
+
+    st.title("🎯 Customer Churn Prediction")
+
+    st.caption(
+        "Enter customer details to generate an XGBoost churn prediction."
+    )
+
+    st.divider()
+
+
+    # ========================================================
+    # CUSTOMER PROFILE
+    # ========================================================
+
+    st.subheader("👤 Customer Profile")
+
+    with st.container(border=True):
+
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+
+            gender = st.selectbox(
+                "Gender",
+                ["Female", "Male"]
+            )
+
+            senior = st.selectbox(
+                "Senior Citizen",
+                [0, 1]
+            )
+
+            partner = st.selectbox(
+                "Partner",
+                ["Yes", "No"]
+            )
+
+        with c2:
+
+            dependents = st.selectbox(
+                "Dependents",
+                ["Yes", "No"]
+            )
+
+            tenure = st.number_input(
+                "Tenure (Months)",
+                min_value=0,
+                max_value=100,
+                value=12
+            )
+
+            phone = st.selectbox(
+                "Phone Service",
+                ["Yes", "No"]
+            )
+
+        with c3:
+
+            multiple_lines = st.selectbox(
+                "Multiple Lines",
+                [
+                    "Yes",
+                    "No",
+                    "No phone service"
+                ]
             )
 
 
-            with result_col1:
+    # ========================================================
+    # SERVICES
+    # ========================================================
 
-                st.subheader(result_text)
+    st.write("")
 
-                st.write(explanation)
+    st.subheader("🌐 Internet & Services")
 
-                st.write("")
+    with st.container(border=True):
+
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+
+            internet = st.selectbox(
+                "Internet Service",
+                ["DSL", "Fiber optic", "No"]
+            )
+
+            security = st.selectbox(
+                "Online Security",
+                [
+                    "Yes",
+                    "No",
+                    "No internet service"
+                ]
+            )
+
+            backup = st.selectbox(
+                "Online Backup",
+                [
+                    "Yes",
+                    "No",
+                    "No internet service"
+                ]
+            )
+
+        with c2:
+
+            protection = st.selectbox(
+                "Device Protection",
+                [
+                    "Yes",
+                    "No",
+                    "No internet service"
+                ]
+            )
+
+            support = st.selectbox(
+                "Tech Support",
+                [
+                    "Yes",
+                    "No",
+                    "No internet service"
+                ]
+            )
+
+            streaming_tv = st.selectbox(
+                "Streaming TV",
+                [
+                    "Yes",
+                    "No",
+                    "No internet service"
+                ]
+            )
+
+        with c3:
+
+            streaming_movies = st.selectbox(
+                "Streaming Movies",
+                [
+                    "Yes",
+                    "No",
+                    "No internet service"
+                ]
+            )
+
+
+    # ========================================================
+    # BILLING
+    # ========================================================
+
+    st.write("")
+
+    st.subheader("💳 Contract & Billing")
+
+    with st.container(border=True):
+
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+
+            contract = st.selectbox(
+                "Contract",
+                [
+                    "Month-to-month",
+                    "One year",
+                    "Two year"
+                ]
+            )
+
+            paperless = st.selectbox(
+                "Paperless Billing",
+                ["Yes", "No"]
+            )
+
+        with c2:
+
+            payment = st.selectbox(
+                "Payment Method",
+                [
+                    "Electronic check",
+                    "Mailed check",
+                    "Bank transfer (automatic)",
+                    "Credit card (automatic)"
+                ]
+            )
+
+        with c3:
+
+            monthly = st.number_input(
+                "Monthly Charges ($)",
+                min_value=0.0,
+                max_value=200.0,
+                value=70.0,
+                step=1.0
+            )
+
+            total = st.number_input(
+                "Total Charges ($)",
+                min_value=0.0,
+                max_value=10000.0,
+                value=800.0,
+                step=10.0
+            )
+
+
+    # ========================================================
+    # BUTTON
+    # ========================================================
+
+    st.write("")
+    st.write("")
+
+    predict_button = st.button(
+        "🔮  ANALYZE CUSTOMER CHURN",
+        use_container_width=True
+    )
+
+
+    # ========================================================
+    # PREDICTION
+    # ========================================================
+
+    if predict_button:
+
+        customer = pd.DataFrame({
+
+            "gender": [gender],
+
+            "SeniorCitizen": [senior],
+
+            "Partner": [partner],
+
+            "Dependents": [dependents],
+
+            "tenure": [tenure],
+
+            "PhoneService": [phone],
+
+            "MultipleLines": [multiple_lines],
+
+            "InternetService": [internet],
+
+            "OnlineSecurity": [security],
+
+            "OnlineBackup": [backup],
+
+            "DeviceProtection": [protection],
+
+            "TechSupport": [support],
+
+            "StreamingTV": [streaming_tv],
+
+            "StreamingMovies": [streaming_movies],
+
+            "Contract": [contract],
+
+            "PaperlessBilling": [paperless],
+
+            "PaymentMethod": [payment],
+
+            "MonthlyCharges": [monthly],
+
+            "TotalCharges": [total]
+        })
+
+
+        # ====================================================
+        # SAME ORIGINAL MODEL PIPELINE
+        # ====================================================
+
+        customer_encoded = pd.get_dummies(
+            customer,
+            drop_first=True
+        )
+
+        customer_encoded = customer_encoded.reindex(
+            columns=model_features,
+            fill_value=0
+        )
+
+        customer_encoded = customer_encoded.astype(float)
+
+
+        try:
+
+            prediction = model.predict(
+                customer_encoded
+            )[0]
+
+            probability = model.predict_proba(
+                customer_encoded
+            )[0][1]
+
+            probability_percent = probability * 100
+
+
+            # =================================================
+            # RESULT
+            # =================================================
+
+            st.write("")
+            st.divider()
+
+            st.subheader("🎯 AI Prediction Result")
+
+            if prediction == 1:
+
+                st.error("⚠️ HIGH CHURN RISK")
+
+                result_text = "Customer is likely to CHURN"
+
+                description = (
+                    "The trained XGBoost model has classified "
+                    "this customer as churn."
+                )
+
+            else:
+
+                st.success("✅ LOW CHURN RISK")
+
+                result_text = "Customer is likely to STAY"
+
+                description = (
+                    "The trained XGBoost model has classified "
+                    "this customer as stay."
+                )
+
+
+            # =================================================
+            # RESULT CARD
+            # =================================================
+
+            with st.container(border=True):
+
+                left, right = st.columns([1, 1])
+
+                with left:
+
+                    st.subheader(result_text)
+
+                    st.write(description)
+
+                    st.write("")
+
+                    st.metric(
+                        "Churn Probability",
+                        f"{probability_percent:.2f}%"
+                    )
+
+
+                with right:
+
+                    fig = go.Figure(
+                        go.Indicator(
+                            mode="gauge+number",
+
+                            value=probability_percent,
+
+                            number={
+                                "suffix": "%",
+                                "font": {
+                                    "size": 40,
+                                    "color": "#172554"
+                                }
+                            },
+
+                            title={
+                                "text": "Estimated Churn Risk"
+                            },
+
+                            gauge={
+                                "axis": {
+                                    "range": [0, 100]
+                                },
+
+                                "bar": {
+                                    "color": "#4f46e5"
+                                },
+
+                                "bgcolor": "#edf2f7",
+
+                                "borderwidth": 1,
+
+                                "bordercolor": "#dbe3ef"
+                            }
+                        )
+                    )
+
+                    fig.update_layout(
+                        height=270,
+                        margin=dict(
+                            l=20,
+                            r=20,
+                            t=45,
+                            b=10
+                        ),
+                        paper_bgcolor="rgba(0,0,0,0)"
+                    )
+
+                    st.plotly_chart(
+                        fig,
+                        use_container_width=True,
+                        config={
+                            "displayModeBar": False
+                        }
+                    )
+
+
+            # =================================================
+            # SUMMARY
+            # =================================================
+
+            st.write("")
+
+            st.subheader("📌 Prediction Summary")
+
+            s1, s2, s3, s4 = st.columns(4)
+
+            with s1:
 
                 st.metric(
-                    "Estimated Churn Probability",
+                    "Prediction",
+                    "CHURN" if prediction == 1 else "STAY"
+                )
+
+            with s2:
+
+                st.metric(
+                    "Probability",
                     f"{probability_percent:.2f}%"
                 )
 
+            with s3:
+
+                st.metric(
+                    "Contract",
+                    contract
+                )
+
+            with s4:
+
+                st.metric(
+                    "Tenure",
+                    f"{tenure} months"
+                )
+
 
             # =================================================
-            # GAUGE
+            # CUSTOMER SNAPSHOT
             # =================================================
 
-            with result_col2:
+            st.write("")
 
-                gauge = go.Figure(
-                    go.Indicator(
-                        mode="gauge+number",
+            st.subheader("👁️ Customer Snapshot")
 
-                        value=probability_percent,
+            x1, x2, x3, x4 = st.columns(4)
 
-                        number={
-                            "suffix": "%",
-                            "font": {
-                                "size": 38,
-                                "color": "#172554"
-                            }
-                        },
+            with x1:
 
-                        gauge={
-                            "axis": {
-                                "range": [0, 100],
-                                "tickwidth": 1,
-                                "tickcolor": "#94a3b8"
-                            },
+                st.info(
+                    f"**Internet Service**\n\n{internet}"
+                )
 
-                            "bar": {
-                                "color": "#4f46e5",
-                                "thickness": 0.72
-                            },
+            with x2:
 
-                            "bgcolor": "#edf2f7",
+                st.info(
+                    f"**Monthly Charges**\n\n${monthly:.2f}"
+                )
 
-                            "borderwidth": 1,
+            with x3:
 
-                            "bordercolor": "#dbe3ef"
-                        }
-                    )
+                st.info(
+                    f"**Payment Method**\n\n{payment}"
+                )
+
+            with x4:
+
+                st.info(
+                    f"**Tech Support**\n\n{support}"
                 )
 
 
-                gauge.update_layout(
-                    height=260,
+            # =================================================
+            # INTERPRETATION
+            # =================================================
 
-                    margin=dict(
-                        l=20,
-                        r=20,
-                        t=30,
-                        b=10
-                    ),
+            st.write("")
 
-                    paper_bgcolor="rgba(0,0,0,0)"
+            with st.expander(
+                "ℹ️ About this prediction"
+            ):
+
+                st.write(
+                    "The application uses the trained XGBoost "
+                    "classification model to predict whether "
+                    "the customer belongs to the churn class."
+                )
+
+                st.write(
+                    "The displayed percentage represents the "
+                    "model's estimated probability for churn."
                 )
 
 
-                st.plotly_chart(
-                    gauge,
-                    use_container_width=True,
-                    config={
-                        "displayModeBar": False
-                    }
-                )
+        except Exception as e:
+
+            st.error("❌ Prediction error occurred.")
+
+            st.code(str(e))
 
 
-        # ====================================================
-        # PREDICTION SUMMARY
-        # ====================================================
+# ============================================================
+# MODEL INFORMATION
+# ============================================================
 
-        st.write("")
+elif page == "🤖 Model Information":
 
-        st.subheader("📌 Prediction Summary")
+    st.title("🤖 XGBoost Model")
 
-        s1, s2, s3, s4 = st.columns(4)
+    st.caption(
+        "Information about the machine learning model used "
+        "for customer churn prediction."
+    )
 
+    st.divider()
 
-        with s1:
+    c1, c2 = st.columns(2)
 
-            st.metric(
-                "Prediction",
-                "CHURN" if prediction == 1 else "STAY"
-            )
+    with c1:
 
+        with st.container(border=True):
 
-        with s2:
+            st.subheader("🧠 Algorithm")
 
-            st.metric(
-                "Probability",
-                f"{probability_percent:.2f}%"
-            )
-
-
-        with s3:
-
-            st.metric(
-                "Contract",
-                contract
-            )
-
-
-        with s4:
-
-            st.metric(
-                "Tenure",
-                f"{tenure} months"
-            )
-
-
-        # ====================================================
-        # CUSTOMER SNAPSHOT
-        # ====================================================
-
-        st.write("")
-
-        st.subheader("👁️ Customer Snapshot")
-
-        snap1, snap2, snap3, snap4 = st.columns(4)
-
-
-        with snap1:
-
-            st.info(
-                f"**Internet Service**\n\n{internet}"
-            )
-
-
-        with snap2:
-
-            st.info(
-                f"**Monthly Charges**\n\n${monthly:.2f}"
-            )
-
-
-        with snap3:
-
-            st.info(
-                f"**Payment Method**\n\n{payment}"
-            )
-
-
-        with snap4:
-
-            st.info(
-                f"**Support**\n\n{support}"
-            )
-
-
-        # ====================================================
-        # INTERPRETATION
-        # ====================================================
-
-        st.write("")
-
-        with st.expander(
-            "ℹ️ How to interpret this result"
-        ):
+            st.write("XGBoost Classifier")
 
             st.write(
-                "The XGBoost model uses the customer information "
-                "provided above to classify the customer into "
-                "the churn or stay category."
+                "An advanced gradient boosting classification "
+                "algorithm used by this application to estimate "
+                "customer churn."
             )
+
+    with c2:
+
+        with st.container(border=True):
+
+            st.subheader("🎯 Prediction")
+
+            st.write("Binary Classification")
 
             st.write(
-                "The displayed percentage is the model's estimated "
-                "probability for the churn class."
-            )
-
-            st.write(
-                "This prediction is based on the trained model and "
-                "should be interpreted as a machine-learning estimate, "
-                "not as a guaranteed future outcome."
+                "The model predicts one of two outcomes: "
+                "customer churn or customer stay."
             )
 
 
-    except Exception as e:
+    st.write("")
 
-        st.error(
-            "❌ Prediction error occurred."
+    with st.container(border=True):
+
+        st.subheader("📋 Model Input Features")
+
+        st.write(
+            "The application uses the feature structure stored "
+            "inside the trained XGBoost model."
         )
 
-        st.code(str(e))
+        st.write(
+            f"Number of encoded model features: "
+            f"**{len(model_features)}**"
+        )
+
+    st.write("")
+
+    st.info(
+        "The model itself is loaded from churn_model.json. "
+        "This application does not retrain or modify the model."
+    )
