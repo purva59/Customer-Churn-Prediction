@@ -1031,10 +1031,6 @@ elif page == "🎯 Churn Prediction":
                         "✅ Prediction completed successfully."
                     )
 
-                    st.info(
-                        "📌 The prediction results are displayed above. "
-                        "No download option is provided."
-                    )
 
 
             except Exception as e:
