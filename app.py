@@ -3,124 +3,87 @@ import pandas as pd
 import plotly.graph_objects as go
 from xgboost import XGBClassifier
 
-
 # =========================================================
-# PAGE SETTINGS
+# PAGE CONFIGURATION
 # =========================================================
-
 st.set_page_config(
-    page_title="Customer Churn AI",
+    page_title="Customer Churn Prediction",
     page_icon="📊",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
-
 # =========================================================
-# LIGHT PROFESSIONAL THEME
+# PROFESSIONAL LIGHT UI
 # =========================================================
-
-st.markdown(
-    """
-    <style>
-
+st.markdown("""
+<style>
     .stApp {
-        background-color: #f4f8fc;
+        background: linear-gradient(135deg, #f5f9ff 0%, #eef4ff 50%, #f8fbff 100%);
     }
 
     [data-testid="stSidebar"] {
-        background-color: #ffffff;
-        border-right: 1px solid #d9e4ef;
+        background: linear-gradient(180deg, #ffffff 0%, #eef5ff 100%);
+        border-right: 1px solid #dbe5f1;
     }
 
     [data-testid="stSidebar"] * {
-        color: #173f70;
+        font-size: 18px !important;
     }
 
     [data-testid="stSidebar"] .stRadio label {
-        font-size: 18px !important;
-        font-weight: 700 !important;
+        font-weight: 600;
     }
 
     h1 {
-        color: #123b70 !important;
-        font-weight: 850 !important;
+        color: #17365d;
+        font-weight: 800;
     }
 
-    h2 {
-        color: #174f7c !important;
-        font-weight: 800 !important;
+    h2, h3 {
+        color: #234e7d;
     }
 
-    h3 {
-        color: #176b76 !important;
-        font-weight: 750 !important;
+    .stButton > button {
+        border-radius: 10px;
+        font-weight: 700;
+        padding: 0.6rem 1.2rem;
     }
 
-    .stButton button {
-        font-size: 17px !important;
-        font-weight: 750 !important;
-        border-radius: 10px !important;
+    [data-testid="stMetric"] {
+        background: white;
+        border: 1px solid #dce6f2;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(40, 80, 120, 0.08);
     }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+</style>
+""", unsafe_allow_html=True)
 
 
 # =========================================================
 # LOAD MODEL
 # =========================================================
-
 @st.cache_resource
 def load_model():
-
     model = XGBClassifier()
-
     model.load_model("churn_model.json")
-
     return model
 
 
-try:
+model = load_model()
 
-    model = load_model()
-
-except Exception as e:
-
-    st.error("Model could not be loaded.")
-    st.code(str(e))
-    st.stop()
-
-
-# Get feature names directly from trained XGBoost model
+# Get exact feature names from the existing model
 model_features = model.get_booster().feature_names
-
-
-if model_features is None:
-
-    st.error(
-        "The trained XGBoost model does not contain feature names."
-    )
-
-    st.stop()
 
 
 # =========================================================
 # SIDEBAR NAVIGATION
 # =========================================================
-
-st.sidebar.title("📊 Customer Churn AI")
-
-st.sidebar.caption(
-    "XGBoost Customer Analytics System"
-)
-
-st.sidebar.divider()
+st.sidebar.title("📊 Customer Churn")
+st.sidebar.markdown("---")
 
 page = st.sidebar.radio(
-    "NAVIGATION",
+    "Navigation",
     [
         "🏠 Dashboard",
         "🎯 Churn Prediction",
@@ -128,376 +91,261 @@ page = st.sidebar.radio(
     ]
 )
 
-st.sidebar.divider()
-
+st.sidebar.markdown("---")
 st.sidebar.info(
-    "Enter customer information to estimate "
-    "the probability of service churn."
+    "XGBoost based Customer Churn Prediction System"
 )
 
 
 # =========================================================
 # DASHBOARD
 # =========================================================
-
 if page == "🏠 Dashboard":
 
-    st.title("📊 Customer Churn AI")
-
-    st.subheader(
-        "XGBoost Based Customer Churn Analysis System"
-    )
+    st.title("📊 Customer Churn Analysis")
+    st.subheader("XGBoost Based Customer Churn Prediction")
 
     st.write(
-        "A machine learning system that estimates "
-        "customer churn probability using customer "
-        "profile, service and billing information."
+        "This application predicts whether a customer is likely to "
+        "discontinue the service using an existing XGBoost classification model."
     )
 
-    st.divider()
+    st.markdown("---")
 
-    # Overview
+    col1, col2, col3 = st.columns(3)
 
-    st.header("📌 System Overview")
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-
+    with col1:
         st.metric(
-            "🤖 Machine Learning",
+            "🤖 Algorithm",
             "XGBoost"
         )
 
-    with c2:
-
+    with col2:
         st.metric(
             "🎯 Task",
             "Binary Classification"
         )
 
-    with c3:
-
+    with col3:
         st.metric(
-            "📊 Prediction",
+            "📌 Output",
             "Churn / Stay"
         )
 
-    st.divider()
+    st.markdown("---")
 
-    # How it works
+    st.subheader("🔍 What This System Does")
 
-    st.header("⚙️ How It Works")
+    c1, c2 = st.columns(2)
 
-    h1, h2, h3 = st.columns(3)
-
-    with h1:
-
-        st.subheader("01 · 👤 Customer Data")
-
-        st.write(
-            "Enter customer profile, service, "
-            "contract and billing information."
+    with c1:
+        st.info(
+            "👤 **Manual Prediction**\n\n"
+            "Enter customer information manually and get "
+            "the predicted churn status and probability."
         )
 
-    with h2:
-
-        st.subheader("02 · 🧠 XGBoost")
-
-        st.write(
-            "The trained XGBoost model processes "
-            "the customer information."
+    with c2:
+        st.info(
+            "📂 **CSV Prediction**\n\n"
+            "Upload multiple customer records and generate "
+            "churn predictions for the complete file."
         )
 
-    with h3:
+    st.markdown("---")
 
-        st.subheader("03 · 🎯 Prediction")
+    st.subheader("📈 Prediction Flow")
 
-        st.write(
-            "The system estimates churn probability "
-            "and displays the prediction."
-        )
-
-    st.divider()
-
-    st.info(
-        "💡 Customer churn refers to customers "
-        "discontinuing a service. This system uses "
-        "machine learning to estimate churn probability."
+    st.write(
+        "Customer Data → Data Preprocessing → XGBoost Model → "
+        "Churn Probability → Churn / Stay Prediction"
     )
 
 
 # =========================================================
 # CHURN PREDICTION
 # =========================================================
-
 elif page == "🎯 Churn Prediction":
 
     st.title("🎯 Customer Churn Prediction")
 
     st.write(
-        "Enter the customer's information below "
-        "to generate an XGBoost churn prediction."
+        "Choose a prediction method below."
     )
 
-    st.divider()
-
-    # =====================================================
-    # CUSTOMER DETAILS
-    # =====================================================
-
-    st.header("👤 Customer Profile")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-
-        gender = st.selectbox(
-            "Gender",
-            ["Female", "Male"]
-        )
-
-        senior = st.selectbox(
-            "Senior Citizen",
-            [0, 1]
-        )
-
-    with col2:
-
-        partner = st.selectbox(
-            "Partner",
-            ["Yes", "No"]
-        )
-
-        dependents = st.selectbox(
-            "Dependents",
-            ["Yes", "No"]
-        )
-
-    with col3:
-
-        tenure = st.number_input(
-            "Tenure (Months)",
-            min_value=0,
-            max_value=100,
-            value=12
-        )
-
-        phone = st.selectbox(
-            "Phone Service",
-            ["Yes", "No"]
-        )
-
-
-    st.divider()
-
-
-    # =====================================================
-    # INTERNET & SERVICES
-    # =====================================================
-
-    st.header("🌐 Internet & Services")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-
-        multiple_lines = st.selectbox(
-            "Multiple Lines",
-            ["Yes", "No", "No phone service"]
-        )
-
-        internet = st.selectbox(
-            "Internet Service",
-            ["DSL", "Fiber optic", "No"]
-        )
-
-    with col2:
-
-        security = st.selectbox(
-            "Online Security",
-            ["Yes", "No", "No internet service"]
-        )
-
-        backup = st.selectbox(
-            "Online Backup",
-            ["Yes", "No", "No internet service"]
-        )
-
-    with col3:
-
-        protection = st.selectbox(
-            "Device Protection",
-            ["Yes", "No", "No internet service"]
-        )
-
-        support = st.selectbox(
-            "Tech Support",
-            ["Yes", "No", "No internet service"]
-        )
-
-    col4, col5 = st.columns(2)
-
-    with col4:
-
-        streaming_tv = st.selectbox(
-            "Streaming TV",
-            ["Yes", "No", "No internet service"]
-        )
-
-    with col5:
-
-        streaming_movies = st.selectbox(
-            "Streaming Movies",
-            ["Yes", "No", "No internet service"]
-        )
-
-
-    st.divider()
-
-
-    # =====================================================
-    # CONTRACT & BILLING
-    # =====================================================
-
-    st.header("💳 Contract & Billing")
-
-    bill1, bill2, bill3 = st.columns(3)
-
-    with bill1:
-
-        contract = st.selectbox(
-            "Contract",
-            [
-                "Month-to-month",
-                "One year",
-                "Two year"
-            ]
-        )
-
-        paperless = st.selectbox(
-            "Paperless Billing",
-            ["Yes", "No"]
-        )
-
-    with bill2:
-
-        payment = st.selectbox(
-            "Payment Method",
-            [
-                "Electronic check",
-                "Mailed check",
-                "Bank transfer (automatic)",
-                "Credit card (automatic)"
-            ]
-        )
-
-    with bill3:
-
-        monthly = st.number_input(
-            "Monthly Charges ($)",
-            min_value=0.0,
-            max_value=200.0,
-            value=70.0
-        )
-
-        total = st.number_input(
-            "Total Charges ($)",
-            min_value=0.0,
-            max_value=10000.0,
-            value=800.0
-        )
-
-
-    st.divider()
-
-
-    # =====================================================
-    # PREDICTION BUTTON
-    # =====================================================
-
-    st.header("🔮 Generate Prediction")
-
-    predict_button = st.button(
-        "🚀 Predict Customer Churn",
-        type="primary",
-        use_container_width=True
+    manual_tab, csv_tab = st.tabs(
+        ["👤 Manual Customer Prediction", "📂 CSV File Prediction"]
     )
 
-
     # =====================================================
-    # PREDICTION
+    # MANUAL PREDICTION
     # =====================================================
+    with manual_tab:
 
-    if predict_button:
+        st.subheader("👤 Enter Customer Details")
 
-        # Create original-style customer record
+        col1, col2, col3 = st.columns(3)
 
-        customer = pd.DataFrame({
+        with col1:
 
-            "gender": [gender],
+            gender = st.selectbox(
+                "Gender",
+                ["Male", "Female"]
+            )
 
-            "SeniorCitizen": [senior],
+            senior_citizen = st.selectbox(
+                "Senior Citizen",
+                [0, 1]
+            )
 
-            "Partner": [partner],
+            partner = st.selectbox(
+                "Partner",
+                ["Yes", "No"]
+            )
 
-            "Dependents": [dependents],
+            dependents = st.selectbox(
+                "Dependents",
+                ["Yes", "No"]
+            )
 
-            "tenure": [tenure],
+            tenure = st.number_input(
+                "Tenure (months)",
+                min_value=0,
+                max_value=100,
+                value=12
+            )
 
-            "PhoneService": [phone],
+            phone_service = st.selectbox(
+                "Phone Service",
+                ["Yes", "No"]
+            )
 
-            "MultipleLines": [multiple_lines],
+        with col2:
 
-            "InternetService": [internet],
+            multiple_lines = st.selectbox(
+                "Multiple Lines",
+                ["Yes", "No", "No phone service"]
+            )
 
-            "OnlineSecurity": [security],
+            internet_service = st.selectbox(
+                "Internet Service",
+                ["DSL", "Fiber optic", "No"]
+            )
 
-            "OnlineBackup": [backup],
+            online_security = st.selectbox(
+                "Online Security",
+                ["Yes", "No", "No internet service"]
+            )
 
-            "DeviceProtection": [protection],
+            online_backup = st.selectbox(
+                "Online Backup",
+                ["Yes", "No", "No internet service"]
+            )
 
-            "TechSupport": [support],
+            device_protection = st.selectbox(
+                "Device Protection",
+                ["Yes", "No", "No internet service"]
+            )
 
-            "StreamingTV": [streaming_tv],
+            tech_support = st.selectbox(
+                "Tech Support",
+                ["Yes", "No", "No internet service"]
+            )
 
-            "StreamingMovies": [streaming_movies],
+        with col3:
 
-            "Contract": [contract],
+            streaming_tv = st.selectbox(
+                "Streaming TV",
+                ["Yes", "No", "No internet service"]
+            )
 
-            "PaperlessBilling": [paperless],
+            streaming_movies = st.selectbox(
+                "Streaming Movies",
+                ["Yes", "No", "No internet service"]
+            )
 
-            "PaymentMethod": [payment],
+            contract = st.selectbox(
+                "Contract",
+                [
+                    "Month-to-month",
+                    "One year",
+                    "Two year"
+                ]
+            )
 
-            "MonthlyCharges": [monthly],
+            paperless_billing = st.selectbox(
+                "Paperless Billing",
+                ["Yes", "No"]
+            )
 
-            "TotalCharges": [total]
-        })
+            payment_method = st.selectbox(
+                "Payment Method",
+                [
+                    "Electronic check",
+                    "Mailed check",
+                    "Bank transfer (automatic)",
+                    "Credit card (automatic)"
+                ]
+            )
 
+            monthly_charges = st.number_input(
+                "Monthly Charges",
+                min_value=0.0,
+                value=70.0
+            )
 
-        # Convert categorical variables
+            total_charges = st.number_input(
+                "Total Charges",
+                min_value=0.0,
+                value=1000.0
+            )
 
-        customer_encoded = pd.get_dummies(
-            customer,
-            drop_first=True
+        st.markdown("---")
+
+        predict_button = st.button(
+            "🔮 Predict Customer Churn",
+            type="primary",
+            use_container_width=True
         )
 
+        if predict_button:
 
-        # Match EXACTLY with training features
+            customer = pd.DataFrame({
+                "gender": [gender],
+                "SeniorCitizen": [senior_citizen],
+                "Partner": [partner],
+                "Dependents": [dependents],
+                "tenure": [tenure],
+                "PhoneService": [phone_service],
+                "MultipleLines": [multiple_lines],
+                "InternetService": [internet_service],
+                "OnlineSecurity": [online_security],
+                "OnlineBackup": [online_backup],
+                "DeviceProtection": [device_protection],
+                "TechSupport": [tech_support],
+                "StreamingTV": [streaming_tv],
+                "StreamingMovies": [streaming_movies],
+                "Contract": [contract],
+                "PaperlessBilling": [paperless_billing],
+                "PaymentMethod": [payment_method],
+                "MonthlyCharges": [monthly_charges],
+                "TotalCharges": [total_charges]
+            })
 
-        customer_encoded = customer_encoded.reindex(
-            columns=model_features,
-            fill_value=0
-        )
+            # Same preprocessing used for the existing model
+            customer_encoded = pd.get_dummies(
+                customer,
+                drop_first=True
+            )
 
+            customer_encoded = customer_encoded.reindex(
+                columns=model_features,
+                fill_value=0
+            )
 
-        # Convert data to numeric
+            customer_encoded = customer_encoded.astype(float)
 
-        customer_encoded = customer_encoded.astype(float)
-
-
-        try:
-
+            # Prediction
             prediction = model.predict(
                 customer_encoded
             )[0]
@@ -508,336 +356,421 @@ elif page == "🎯 Churn Prediction":
 
             probability_percent = probability * 100
 
+            st.markdown("---")
 
-            # =================================================
-            # RESULT
-            # =================================================
+            st.subheader("📊 Prediction Result")
 
-            st.divider()
+            result_col1, result_col2 = st.columns(2)
 
-            st.header("📊 Prediction Result")
+            with result_col1:
 
-            if prediction == 1:
+                if prediction == 1:
+                    st.error("⚠️ Customer is likely to CHURN")
+                else:
+                    st.success("✅ Customer is likely to STAY")
 
-                st.error(
-                    "⚠️ HIGH CHURN RISK"
-                )
-
-                st.subheader(
-                    "⚠️ Customer is likely to CHURN"
-                )
-
-                st.write(
-                    "The trained XGBoost model estimates "
-                    "a higher probability of service churn."
-                )
-
-            else:
-
-                st.success(
-                    "✅ LOW CHURN RISK"
-                )
-
-                st.subheader(
-                    "✅ Customer is likely to STAY"
-                )
-
-                st.write(
-                    "The trained XGBoost model estimates "
-                    "a lower probability of service churn."
-                )
-
-
-            # =================================================
-            # GAUGE
-            # =================================================
-
-            st.subheader("🎯 Churn Probability")
-
-            gauge = go.Figure(
-                go.Indicator(
-                    mode="gauge+number",
-                    value=probability_percent,
-
-                    number={
-                        "suffix": "%",
-                        "font": {
-                            "size": 36
-                        }
-                    },
-
-                    title={
-                        "text": "Estimated Churn Probability"
-                    },
-
-                    gauge={
-                        "axis": {
-                            "range": [0, 100]
-                        },
-
-                        "bar": {
-                            "color": "#1769AA"
-                        },
-
-                        "steps": [
-                            {
-                                "range": [0, 40],
-                                "color": "#DDF5E5"
-                            },
-                            {
-                                "range": [40, 70],
-                                "color": "#FFF1CC"
-                            },
-                            {
-                                "range": [70, 100],
-                                "color": "#FFE0E0"
-                            }
-                        ]
-                    }
-                )
-            )
-
-            gauge.update_layout(
-                height=300,
-                margin=dict(
-                    l=30,
-                    r=30,
-                    t=60,
-                    b=20
-                ),
-                paper_bgcolor="rgba(0,0,0,0)"
-            )
-
-            st.plotly_chart(
-                gauge,
-                use_container_width=True,
-                config={
-                    "displayModeBar": False
-                }
-            )
-
-
-            # =================================================
-            # METRICS
-            # =================================================
-
-            st.subheader("📈 Prediction Summary")
-
-            m1, m2, m3 = st.columns(3)
-
-            with m1:
-
-                st.metric(
-                    "Prediction",
-                    "Churn" if prediction == 1 else "Stay"
-                )
-
-            with m2:
+            with result_col2:
 
                 st.metric(
                     "Churn Probability",
                     f"{probability_percent:.2f}%"
                 )
 
-            with m3:
-
-                st.metric(
-                    "Model",
-                    "XGBoost"
-                )
-
-
-            # =================================================
-            # PROGRESS
-            # =================================================
-
-            st.subheader("📊 Probability Level")
-
             st.progress(
                 float(probability)
             )
 
-            st.caption(
-                f"Estimated churn probability: "
-                f"{probability_percent:.2f}%"
+            if probability >= 0.5:
+                st.warning(
+                    "The predicted churn probability is above the "
+                    "classification threshold."
+                )
+            else:
+                st.success(
+                    "The predicted churn probability is below the "
+                    "classification threshold."
+                )
+
+            # Gauge
+            fig = go.Figure(
+                go.Indicator(
+                    mode="gauge+number",
+                    value=probability_percent,
+                    title={
+                        "text": "Churn Probability"
+                    },
+                    gauge={
+                        "axis": {
+                            "range": [0, 100]
+                        },
+                        "threshold": {
+                            "line": {
+                                "width": 4
+                            },
+                            "value": 50
+                        }
+                    }
+                )
+            )
+
+            fig.update_layout(
+                height=350,
+                margin=dict(
+                    l=30,
+                    r=30,
+                    t=70,
+                    b=20
+                )
+            )
+
+            st.plotly_chart(
+                fig,
+                use_container_width=True
             )
 
 
-            # =================================================
-            # CUSTOMER SUMMARY
-            # =================================================
+    # =====================================================
+    # CSV BATCH PREDICTION
+    # =====================================================
+    with csv_tab:
 
-            with st.expander(
-                "👁️ View Customer Input Summary"
-            ):
+        st.subheader("📂 Upload Customer CSV File")
 
-                s1, s2, s3 = st.columns(3)
+        st.write(
+            "Upload a CSV file containing customer information. "
+            "The application will generate churn predictions for all records."
+        )
 
-                with s1:
+        uploaded_file = st.file_uploader(
+            "Choose CSV file",
+            type=["csv"]
+        )
 
-                    st.write(
-                        f"**Gender:** {gender}"
+        if uploaded_file is not None:
+
+            try:
+
+                uploaded_df = pd.read_csv(
+                    uploaded_file
+                )
+
+                st.success(
+                    "✅ CSV file uploaded successfully."
+                )
+
+                st.subheader("👀 Data Preview")
+
+                st.dataframe(
+                    uploaded_df.head(10),
+                    use_container_width=True
+                )
+
+                st.write(
+                    f"Total records: **{len(uploaded_df)}**"
+                )
+
+                # Required columns
+                required_columns = [
+                    "gender",
+                    "SeniorCitizen",
+                    "Partner",
+                    "Dependents",
+                    "tenure",
+                    "PhoneService",
+                    "MultipleLines",
+                    "InternetService",
+                    "OnlineSecurity",
+                    "OnlineBackup",
+                    "DeviceProtection",
+                    "TechSupport",
+                    "StreamingTV",
+                    "StreamingMovies",
+                    "Contract",
+                    "PaperlessBilling",
+                    "PaymentMethod",
+                    "MonthlyCharges",
+                    "TotalCharges"
+                ]
+
+                missing_columns = [
+                    col
+                    for col in required_columns
+                    if col not in uploaded_df.columns
+                ]
+
+                if missing_columns:
+
+                    st.error(
+                        "❌ Required columns are missing:"
                     )
 
                     st.write(
-                        f"**Tenure:** {tenure} months"
+                        missing_columns
                     )
 
-                    st.write(
-                        f"**Partner:** {partner}"
+                else:
+
+                    st.markdown("---")
+
+                    predict_csv = st.button(
+                        "🔮 Predict CSV File",
+                        type="primary",
+                        use_container_width=True
                     )
 
-                    st.write(
-                        f"**Dependents:** {dependents}"
-                    )
+                    if predict_csv:
 
-                with s2:
+                        # Keep original data for output
+                        result_df = uploaded_df.copy()
 
-                    st.write(
-                        f"**Internet:** {internet}"
-                    )
+                        # Create model input
+                        prediction_df = uploaded_df.copy()
 
-                    st.write(
-                        f"**Online Security:** {security}"
-                    )
+                        # Remove columns that are not model inputs
+                        if "customerID" in prediction_df.columns:
+                            prediction_df = prediction_df.drop(
+                                "customerID",
+                                axis=1
+                            )
 
-                    st.write(
-                        f"**Tech Support:** {support}"
-                    )
+                        # Remove actual Churn column if present
+                        if "Churn" in prediction_df.columns:
+                            prediction_df = prediction_df.drop(
+                                "Churn",
+                                axis=1
+                            )
 
-                    st.write(
-                        f"**Streaming TV:** {streaming_tv}"
-                    )
+                        # Convert TotalCharges to numeric
+                        prediction_df["TotalCharges"] = pd.to_numeric(
+                            prediction_df["TotalCharges"],
+                            errors="coerce"
+                        )
 
-                with s3:
+                        # Fill missing TotalCharges
+                        prediction_df["TotalCharges"] = (
+                            prediction_df["TotalCharges"]
+                            .fillna(
+                                prediction_df["TotalCharges"].median()
+                            )
+                        )
 
-                    st.write(
-                        f"**Contract:** {contract}"
-                    )
+                        # One-hot encoding
+                        encoded_df = pd.get_dummies(
+                            prediction_df,
+                            drop_first=True
+                        )
 
-                    st.write(
-                        f"**Payment:** {payment}"
-                    )
+                        # Match exact model features
+                        encoded_df = encoded_df.reindex(
+                            columns=model_features,
+                            fill_value=0
+                        )
 
-                    st.write(
-                        f"**Monthly Charges:** ${monthly:.2f}"
-                    )
+                        encoded_df = encoded_df.astype(float)
 
-                    st.write(
-                        f"**Total Charges:** ${total:.2f}"
-                    )
+                        # Predictions
+                        predictions = model.predict(
+                            encoded_df
+                        )
 
+                        probabilities = model.predict_proba(
+                            encoded_df
+                        )[:, 1]
 
-        except Exception as e:
+                        # Add results
+                        result_df["Predicted_Churn"] = [
+                            "Churn" if value == 1 else "Stay"
+                            for value in predictions
+                        ]
 
-            st.error(
-                "Prediction error occurred."
-            )
+                        result_df[
+                            "Churn_Probability_Percent"
+                        ] = (
+                            probabilities * 100
+                        ).round(2)
 
-            st.code(str(e))
+                        st.success(
+                            "✅ Predictions generated successfully!"
+                        )
+
+                        st.markdown("---")
+
+                        st.subheader("📊 Prediction Summary")
+
+                        total_customers = len(result_df)
+
+                        churn_count = (
+                            result_df["Predicted_Churn"]
+                            .eq("Churn")
+                            .sum()
+                        )
+
+                        stay_count = (
+                            result_df["Predicted_Churn"]
+                            .eq("Stay")
+                            .sum()
+                        )
+
+                        average_probability = (
+                            result_df[
+                                "Churn_Probability_Percent"
+                            ].mean()
+                        )
+
+                        m1, m2, m3, m4 = st.columns(4)
+
+                        with m1:
+                            st.metric(
+                                "👥 Total Customers",
+                                total_customers
+                            )
+
+                        with m2:
+                            st.metric(
+                                "⚠️ Predicted Churn",
+                                churn_count
+                            )
+
+                        with m3:
+                            st.metric(
+                                "✅ Predicted Stay",
+                                stay_count
+                            )
+
+                        with m4:
+                            st.metric(
+                                "📈 Avg. Churn Probability",
+                                f"{average_probability:.2f}%"
+                            )
+
+                        st.markdown("---")
+
+                        st.subheader("📋 Prediction Results")
+
+                        st.dataframe(
+                            result_df,
+                            use_container_width=True
+                        )
+
+                        # Download
+                        csv_bytes = result_df.to_csv(
+                            index=False
+                        ).encode("utf-8")
+
+                        st.download_button(
+                            label="⬇️ Download Prediction Results",
+                            data=csv_bytes,
+                            file_name="churn_predictions.csv",
+                            mime="text/csv",
+                            use_container_width=True
+                        )
+
+            except Exception as e:
+
+                st.error(
+                    "❌ Error while processing the CSV file."
+                )
+
+                st.code(
+                    str(e)
+                )
 
 
 # =========================================================
 # MODEL INFORMATION
 # =========================================================
-
 elif page == "🤖 Model Information":
 
-    st.title("🤖 XGBoost Model")
+    st.title("🤖 Model Information")
+
+    st.subheader("XGBoost Classification Model")
 
     st.write(
-        "Information about the trained customer churn "
-        "classification model."
+        "The application uses an existing XGBoost classification "
+        "model to predict customer churn."
     )
 
-    st.divider()
+    st.markdown("---")
 
-    c1, c2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-    with c1:
+    with col1:
 
-        st.subheader("🧠 Model Details")
-
-        st.write(
-            "**Algorithm:** XGBoost Classifier"
+        st.info(
+            "### Algorithm\n"
+            "XGBoost Classifier"
         )
 
-        st.write(
-            "**Task:** Binary Classification"
+        st.info(
+            "### Problem Type\n"
+            "Binary Classification"
         )
 
-        st.write(
-            "**Output:** Churn / Stay"
+        st.info(
+            "### Target\n"
+            "Customer Churn"
         )
 
-        st.write(
-            "**Prediction:** Churn Probability"
+    with col2:
+
+        st.info(
+            "### Prediction 1\n"
+            "Churn"
         )
 
-    with c2:
-
-        st.subheader("📊 Input Categories")
-
-        st.write(
-            "• Customer profile"
+        st.info(
+            "### Prediction 2\n"
+            "Stay"
         )
 
-        st.write(
-            "• Internet services"
+        st.info(
+            "### Model File\n"
+            "churn_model.json"
         )
 
-        st.write(
-            "• Additional services"
-        )
+    st.markdown("---")
 
-        st.write(
-            "• Contract information"
-        )
+    st.subheader("🔧 Model Configuration")
 
-        st.write(
-            "• Billing information"
-        )
+    config_df = pd.DataFrame({
+        "Parameter": [
+            "n_estimators",
+            "max_depth",
+            "learning_rate",
+            "eval_metric"
+        ],
+        "Value": [
+            "100",
+            "4",
+            "0.1",
+            "logloss"
+        ]
+    })
 
+    st.dataframe(
+        config_df,
+        use_container_width=True,
+        hide_index=True
+    )
 
-    st.divider()
+    st.markdown("---")
 
-    st.subheader("🔧 Prediction Process")
+    st.subheader("📌 Input Features")
 
     st.write(
-        "1. Customer information is collected."
+        f"The model uses **{len(model_features)} encoded features** "
+        "after preprocessing."
     )
 
-    st.write(
-        "2. Categorical variables are encoded."
-    )
+    with st.expander("View Model Features"):
 
-    st.write(
-        "3. Features are aligned with the trained model."
-    )
+        st.write(
+            model_features
+        )
 
-    st.write(
-        "4. XGBoost generates the prediction."
-    )
-
-    st.write(
-        "5. Churn probability is displayed."
-    )
-
-
-    st.divider()
+    st.markdown("---")
 
     st.info(
-        f"The trained XGBoost model contains "
-        f"{len(model_features)} processed input features."
+        "This application uses the existing trained model. "
+        "No retraining is performed inside the application."
     )
-
-
-# =========================================================
-# FOOTER
-# =========================================================
-
-st.divider()
-
-st.caption(
-    "Customer Churn AI • XGBoost Classification System"
-)
